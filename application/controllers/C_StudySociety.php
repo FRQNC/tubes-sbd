@@ -42,7 +42,7 @@ class C_StudySociety extends CI_Controller {
     if ($this->form_validation->run() == false) {
         redirect('C_StudySociety/register');
     }
-
+    
     $username = $this->input->post('username');
     $email = $this->input->post('user_login_email');
     $password = password_hash($this->input->post('user_login_password'), PASSWORD_BCRYPT);
