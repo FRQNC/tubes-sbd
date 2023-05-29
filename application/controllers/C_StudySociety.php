@@ -75,8 +75,6 @@ public function confirmLogin()
     $form_password = $this->input->post('user_login_password');
     $this->load->model('M_StudySociety');
     $stored_password = $this->M_StudySociety->getUserPassword($username)[0];
-    // $data['password'] = $stored_password;
-    // $this->load->view("V_Test",$data);
     $result = password_verify($form_password, $stored_password->user_login_password);
     if ($result) {
         redirect('C_StudySociety');
