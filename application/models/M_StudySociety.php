@@ -15,4 +15,11 @@ class M_StudySociety extends CI_Model {
         $query = $this->db->query("SELECT user_login_password FROM user_login WHERE username = '$username'");
         return $query->result();
     }
+
+
+    public function getAllMitra()
+    {
+        $query = $this->db->query("SELECT * from tag");
+        return $query->result();
+    }
 }
