@@ -85,4 +85,12 @@ public function confirmLogin()
     }
 }
 
+public function cari(){
+    $data_mitra = $this->M_StudySociety->getAllMitra();
+    $temp['data'] = $data_mitra;
+    $this->load->view('v_Landing',$temp);
+}
+
+
+
 }
