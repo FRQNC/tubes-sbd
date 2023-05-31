@@ -1,11 +1,11 @@
 <?php include "templates/V_header.php"; ?>
-
+<hr>
 <style>
   body {
-	background-color: #545B77;
+	background-color: #93BFCF;
 }
 .form-container{
-    background: linear-gradient(150deg,#1B394D 33%,#2D9DA7 34%,#2D9DA7 66%,#EC5F20 67%);
+    background: linear-gradient(150deg,#1B394D 33%,#2D9DA7 34%,#2D9DA7 66%,#6096b4 67%);
     font-family: 'Raleway', sans-serif;
     text-align: center;
     padding: 30px 20px 50px;
@@ -25,7 +25,8 @@
 }
 .form-horizontal .form-icon{
     color: #fff;
-    background-color: #93bfcf;
+    background-image: url("<?php echo base_url('assets/logo1.png'); ?>");
+    background-size: 100%;
     font-size: 75px;
     line-height: 92px;
     height: 90px;
@@ -59,7 +60,7 @@
 }
 .form-horizontal .form-control:focus{
     box-shadow: none;
-    border-bottom-color: #EC5F20;
+    border-bottom-color: #6096b4;
 }
 .form-horizontal .form-control::placeholder{
     color: #000;
@@ -82,7 +83,7 @@
 }
 .form-horizontal .signin{
     color: #fff;
-    background-color: #EC5F20;
+    background-color: #6096b4;
     font-size: 17px;
     text-transform: capitalize;
     letter-spacing: 2px;
@@ -99,6 +100,7 @@
 }
 </style>
 <br>
+
 <div class="form-bg" >
     <div class="container">
         <div class="row">

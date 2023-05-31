@@ -18,6 +18,11 @@ class C_StudySociety extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
+	public function __construct()
+	{
+		parent:: __construct();
+		$this->load->model('M_StudySociety');
+	} 
 	public function index()
 	{
 		$this->load->view('V_landing');
@@ -29,6 +34,12 @@ class C_StudySociety extends CI_Controller {
 
     public function login(){
         $this->load->view('V_login');
+    }
+    public function home(){
+        $data['keyword'] = $this->input->get('keyword');
+		$this->load->model('M_StudySociety');
+		$data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $this->load->view('V_Home', $data,);
     }
 
     public function confirmRegistration()
@@ -77,17 +88,12 @@ public function confirmLogin()
     $stored_password = $this->M_StudySociety->getUserPassword($username)[0];
     $result = password_verify($form_password, $stored_password->user_login_password);
     if ($result) {
-        redirect('C_StudySociety');
+        redirect('C_StudySociety/home');
     } else {
-        redirect('C_StudySociety/login');
+        redirect('C_StudySociety/home');
     }
 }
 
-public function cari(){
-    $data_mitra = $this->M_StudySociety->getAllMitra();
-    $temp['data'] = $data_mitra;
-    $this->load->view('v_Landing',$temp);
-}
 
 public function V_addPost(){
     $this->load->view("V_addPost");

@@ -1,0 +1,205 @@
+body {
+	background-color: #dffef7;
+	font-family: "Raleway", sans-serif;
+	font-size: 15px;
+	line-height: 15px;
+	color: #000000;
+}
+
+.btn,
+a,
+a:hover {
+	text-decoration: none;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	outline: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Old Standard TT", serif;
+	line-height: 1em;
+	margin: 0;
+}
+h1 {
+	font-size: 5em;
+}
+h1.title,
+h2 {
+	font-size: 2em;
+	line-height: 3em;
+}
+h3 {
+	font-size: 1.5em;
+	margin-bottom: 0.7em;
+}
+h4 {
+	font-size: 1.25em;
+	margin-bottom: 0.75em;
+}
+p {
+	margin-bottom: 1em;
+	line-height: 1.5em;
+}
+
+.btn {
+	border: none !important;
+	border-radius: 0;
+	padding: 5px 30px;
+}
+.btn-default {
+	background: #93bfcf;
+	box-shadow: none !important;
+	color: #fff;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active {
+	box-shadow: none !important;
+	background: #93bfcf;
+	color: #fff;
+	outline: none !important;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+	background-color: #93bfcf;
+	border-color: #93bfcf;
+}
+.pagination > li > a,
+.pagination > li > span {
+	color: #000000;
+}
+.spacer {
+	padding: 6em 0;
+}
+
+/*nav*/
+.navbar {
+	margin: 0;
+}
+.navbar-nav {
+	margin: 0 -15px;
+}
+.navbar-nav > li > a {
+	font-size: 1em;
+	line-height: 4.26em;
+	padding: 10px 0 10px 30px;
+}
+.navbar-default {
+	border: none;
+	background: #93bfcf;
+}
+.navbar-brand {
+	height: 83px;
+}
+/*nav*/
+
+/*SLIDER*/
+.banner {
+	position: relative;
+	color: #93bfcf;
+}
+.banner p {
+	font: 300 1.35em/4em "Old Standard TT", serif;
+	margin: 0;
+}
+.banner img.img-responsive {
+	width: 100%;
+}
+.banner .welcome-message {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	text-align: center;
+}
+.banner .welcome-message .wrap-info {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+.banner .welcome-message .wrap-info .information {
+	display: table-cell;
+	vertical-align: middle;
+}
+.banner .arrow-nav {
+	position: absolute;
+	bottom: -3.5em;
+	background-color: #93bfcf;
+	height: 7em;
+	width: 7em;
+	display: inline-block;
+	z-index: 100;
+	left: 50%;
+	margin-left: -52px;
+	color: #fff;
+	border-radius: 50%;
+}
+.banner .arrow-nav i {
+	font-size: 5em;
+	line-height: 105px;
+}
+.banner .arrow-nav:hover {
+	background: #93bfcf;
+}
+
+/*footer*/
+footer {
+	background-color: #6096b4;
+	color: #eee9da;
+}
+footer.spacer {
+	padding: 3em 0;
+}
+footer h4 {
+	color: #dcdcdc;
+}
+footer a,
+footer p {
+	line-height: 1.5em;
+	font-size: 0.85em;
+	color: #000000;
+}
+footer a:hover {
+	color: #fff;
+}
+footer .subscribe .form-control {
+	height: 30px;
+	padding: 4px 12px;
+	border: none;
+}
+footer .subscribe .input-group-btn:last-child > .btn {
+	margin: 0;
+}
+footer .subscribe .input-group {
+	margin-bottom: 1em;
+}
+footer .subscribe .social a {
+	font-size: 1.5em;
+	margin-right: 0.25em;
+}
+.copyright {
+	background-color: #252423;
+	padding: 0.6em 0;
+	font-size: 0.85em;
+	color: #eee9da;
+}
+.copyright a {
+	color: #000000;
+}
+/*footer*/
