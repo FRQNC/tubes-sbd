@@ -28,10 +28,10 @@
 
 
 <!-- favicon -->
-<link rel="shortcut icon" href="<?php echo base_url('images/favicon.png');?>" type="image/x-icon">
-<link rel="icon" href="<?php echo base_url('images/favicon.png');?>" type="image/x-icon">
+<link rel="shortcut icon" href="<?php echo base_url('assets/2.jpg'); ?>" type="image/x-icon">
+<link rel="icon" href="<?php echo base_url('assets/2.jpg'); ?>" type="image/x-icon">
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/main.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/style.css'); ?>">
 
 </head>
 
@@ -48,15 +48,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php"><img src="images/logo.png"  alt="study society"></a>
+      <a class="navbar-brand" href="<?php echo site_url('C_StudySociety/index');?>"><img src="<?php echo base_url('assets/logo.png'); ?>" style="width:50px;" alt="study society"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
       
       <ul class="nav navbar-nav">        
-        <li><a href="<?php echo site_url('C_StudySociety/index');?>">landing</a></li>            
-        <li><a href="<?php echo site_url('C_StudySociety/login');?>">login</a></li>        
+        <li><a href="<?php echo site_url('/');?>">HOME</a></li>            
+        <li><a href="<?php echo site_url('C_StudySociety/home');?>">MATERI</a></li>        
+        <li><a href="<?php echo site_url('C_StudySociety/login');?>">lOGIN</a></li>        
       </ul>
     </div><!-- Wnavbar-collapse -->
   </div><!-- container-fluid -->

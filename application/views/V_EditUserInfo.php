@@ -13,5 +13,4 @@
 <input type="file" name="user_photo" id="user_photo">
 <button type="submit">Register</button>
 </form>
-
 <?php include "templates/V_footer.php"; ?>
