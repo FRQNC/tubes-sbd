@@ -13,7 +13,10 @@
     </style>
 </head>
 <body>
+  <form action="<?= site_url("C_StudySociety/addPost")?>" method="POST">
+    <input type="text" name="title" id="title" placeholder="Judul post">
     <div id="editorjs"></div>
+  </form>
     <button id="btn-submit">Save</button>
     <div id="output"></div>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->

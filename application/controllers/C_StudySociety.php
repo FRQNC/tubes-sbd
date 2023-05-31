@@ -88,9 +88,76 @@ public function confirmLogin()
     $stored_password = $this->M_StudySociety->getUserPassword($username)[0];
     $result = password_verify($form_password, $stored_password->user_login_password);
     if ($result) {
+        $user_login_data = $this->M_StudySociety->getUserLogin($username)[0];
+        $data = [
+            "user_login_id" => $user_login_data->user_login_id,
+            "username" => $user_login_data->username,
+            "user_login_privilege" => $user_login_data->user_login_privilege
+        ];
+        $this->session->set_userdata($data);
         redirect('C_StudySociety/home');
     } else {
-        redirect('C_StudySociety/home');
+        redirect('C_StudySociety/login');
+    }
+}
+
+public function V_editUserInfo() {
+    $dt = $this->M_StudySociety->getUserInfo($this->session->username);
+    $data = array();
+    $user_fullname = "";
+    $user_birthday = "";
+    $user_sex = "";
+    $user_type = "";
+    $user_institution = "";
+    $user_bio = "";
+    $user_photo = "default.jpg";
+    if(!empty($dt)){
+        $user_fullname = $dt[0]->user_fullname;
+        $user_birthday = $dt[0]->user_birthday;
+        $user_sex = $dt[0]->user_sex;
+        $user_type = $dt[0]->user_type;
+        $user_institution = $dt[0]->user_institution;
+        $user_bio = $dt[0]->user_bio;
+        $user_photo = $dt[0]->user_photo;
+    }
+         
+    $data = [
+        "user_fullname" => $user_fullname,
+        "user_birthday" => $user_birthday,
+        "user_sex" => $user_sex,
+        "user_type" => $user_type,
+        "user_institution" => $user_institution,
+        "user_bio" => $user_bio,
+        "user_photo" => $user_photo
+    ];
+    $this->load->view("V_EditUserInfo", $data);
+}
+
+public function editUserInfo(){
+    $user_login_id = $this->input->post("user_login_id");
+    $user_fullname = $this->input->post("user_fullname");
+    $user_birthday = $this->input->post("user_birthday");
+    $user_sex = $this->input->post("user_sex");
+    $user_type = $this->input->post("user_type");
+    $user_institution = $this->input->post("user_institution");
+    $user_bio = $this->input->post("user_bio");
+    $user_photo = "default.jpg";
+    $data = [
+        "user_login_id" => $user_login_id,
+        "user_fullname" => $user_fullname,
+        "user_birthday" => $user_birthday,
+        "user_sex" => $user_sex,
+        "user_type" => $user_type,
+        "user_institution" => $user_institution,
+        "user_bio" => $user_bio,
+        "user_photo" => $user_photo
+    ];
+    $success = $this->M_StudySociety->editUserInfo($data);
+    if($success > 0){
+        redirect(site_url('C_StudySociety/home'));
+    }
+    if($success > 0){
+        redirect(site_url('C_StudySociety/V_editUserInfo'));
     }
 }
 
