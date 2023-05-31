@@ -65,9 +65,9 @@ class C_StudySociety extends CI_Controller {
     $this->load->model('M_StudySociety');
     $result = $this->M_StudySociety->addUser($data);
     if ($result > 0) {
-        redirect('C_StudySociety');
+        redirect('C_StudySociety/login');
     } else {
-        redirect('C_StudySociety/register');
+        redirect('C_StudySociety/login');
     }
 }
 
