@@ -89,6 +89,8 @@ public function cari(){
     $this->load->view('v_Landing',$temp);
 }
 
-
+public function V_addPost(){
+    $this->load->view("V_addPost");
+}
 
 }
