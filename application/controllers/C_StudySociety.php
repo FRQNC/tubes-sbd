@@ -284,6 +284,7 @@ class C_StudySociety extends CI_Controller
         $post_content = $this->input->post('post_content');
         $topic_id = $this->input->post('topic');
         $grade_id = $this->input->post('grade');
+        $tags = explode(",",$this->input->post('tags'));
         $resource_name = $_FILES['resource']['name'];
         $resource_tmp_name = $_FILES['resource']['tmp_name'];
         $data = [
@@ -292,9 +293,11 @@ class C_StudySociety extends CI_Controller
             "post_content" => $post_content,
             "topic_id" => $topic_id,
             "grade_id" => $grade_id,
+            "tags" => $tags,
             "resource_name" => $resource_name,
             "resource_tmp_name" => $resource_tmp_name
         ];
+        // $this->load->view('V_Test', $data);
         $success = $this->M_StudySociety->addPostData($data);
         if($success['post_inserted'] > 0){
             if($success['resource_inserted']){

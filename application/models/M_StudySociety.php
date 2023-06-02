@@ -80,7 +80,38 @@ class M_StudySociety extends CI_Model {
         $insert_id = $this->db->insert_id();
         $query = $this->db->query("INSERT INTO resource VALUES('','$resource_name','0','$user_id','$insert_id')");
         $result["resource_inserted"] = $this->db->affected_rows();
+        foreach($data['tags'] as $tag){
+            $tag_found = $this->findTag($tag);
+            if(!empty($tag_found)){
+                $result['tag_increased'] = $this->updateTagCount($tag_found[0]->tag_id);
+                $this->addPostTags($tag_found[0]->tag_id,$insert_id);
+            }
+            else{
+                $tag_insert_id = $this->addTag($tag);
+                $result['tags_inserted'] = $this->addPostTags($tag_insert_id,$insert_id);
+            }
+        }
         return $result;
+    }
+
+    public function findTag($tag_name){
+        $query = $this->db->query("SELECT tag_id FROM tag WHERE tag_name='$tag_name'");
+        return $query->result();
+    }
+
+    public function addTag($tag_name){
+        $query = $this->db->query("INSERT INTO tag VALUES('','$tag_name',1)");
+        return $this->db->insert_id();
+    }
+
+    public function addPostTags($tag_id,$post_id){
+        $query = $this->db->query("INSERT INTO post_tags VALUES('','$post_id','$tag_id')");
+        return $this->db->affected_rows();
+    }
+
+    public function updateTagCount($tag_id){
+        $query = $this->db->query("UPDATE tag SET tag_count=tag_count+1 WHERE tag_id = '$tag_id'");
+        return $this->db->affected_rows();
     }
 
 }
