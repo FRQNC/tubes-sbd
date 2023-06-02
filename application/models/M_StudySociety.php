@@ -58,5 +58,29 @@ class M_StudySociety extends CI_Model {
 	return $query->result();
 }
 
+    public function getAllGrade(){
+        $query = $this->db->query("SELECT * FROM grade");
+        return $query->result();
+    }
+    
+    public function getAllTopic(){
+        $query = $this->db->query("SELECT * FROM topic");
+        return $query->result();
+    }
+
+    public function addPostData($data){
+        $user_id = $data['user_id'];
+        $post_title = $data['post_title'];
+        $post_content = $data['post_content'];
+        $topic_id = $data['topic_id'];
+        $grade_id = $data['grade_id'];
+        $resource_name = $data['resource_name'];
+        $query = $this->db->query("INSERT INTO post VALUES ('','$user_id','$post_title','$post_content',0,0,'$topic_id','$grade_id')");
+        $result["post_inserted"] = $this->db->affected_rows();
+        $insert_id = $this->db->insert_id();
+        $query = $this->db->query("INSERT INTO resource VALUES('','$resource_name','0','$user_id','$insert_id')");
+        $result["resource_inserted"] = $this->db->affected_rows();
+        return $result;
+    }
 
 }
