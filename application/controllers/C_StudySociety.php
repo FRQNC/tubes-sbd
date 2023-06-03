@@ -70,19 +70,19 @@ class C_StudySociety extends CI_Controller
         $result = $this->M_StudySociety->addUser($data);
         if ($result > 0) {
 
-            $folderPath = FCPATH . 'assets/userFiles/'.$username.'/';
+            $folderPath = FCPATH . 'assets/userFiles/' . $username . '/';
 
             if (!file_exists($folderPath)) {
                 if (mkdir($folderPath, 0777, true)) {
-                    mkdir($folderPath.'post_images/', 0777, true);
-                    mkdir($folderPath.'resource/pdf/', 0777, true);
-                    mkdir($folderPath.'resource/apkg/', 0777, true);
-                    mkdir($folderPath.'resource/ppt/', 0777, true);
-                    mkdir($folderPath.'resource/docx/', 0777, true);
-                    mkdir($folderPath.'resource/xls/', 0777, true);
-                    mkdir($folderPath.'resource/txt/', 0777, true);
+                    mkdir($folderPath . 'post_images/', 0777, true);
+                    mkdir($folderPath . 'resource/pdf/', 0777, true);
+                    mkdir($folderPath . 'resource/apkg/', 0777, true);
+                    mkdir($folderPath . 'resource/ppt/', 0777, true);
+                    mkdir($folderPath . 'resource/docx/', 0777, true);
+                    mkdir($folderPath . 'resource/xls/', 0777, true);
+                    mkdir($folderPath . 'resource/txt/', 0777, true);
                 } else {
-                    echo 'Unable to create the folder. '.$folderPath;
+                    echo 'Unable to create the folder. ' . $folderPath;
                 }
             } else {
                 echo 'Folder already exists.';
@@ -115,7 +115,8 @@ class C_StudySociety extends CI_Controller
             $data = [
                 "user_login_id" => $user_login_data->user_login_id,
                 "username" => $user_login_data->username,
-                "user_login_privilege" => $user_login_data->user_login_privilege
+                "user_login_privilege" => $user_login_data->user_login_privilege,
+                "is_logged_in" => true
             ];
             $this->session->set_userdata($data);
             redirect('C_StudySociety/home');
@@ -166,7 +167,13 @@ class C_StudySociety extends CI_Controller
         $user_type = $this->input->post("user_type");
         $user_institution = $this->input->post("user_institution");
         $user_bio = $this->input->post("user_bio");
-        $user_photo = "default.jpg";
+        $user_photo = $_FILES['user_photo']['name'];
+        $user_photo_tmp = $_FILES['user_photo']['tmp_name'];
+
+        $relativePath = '../../assets/userFiles/' . $this->session->username . '/';
+        $uploadPath = realpath(__DIR__ . '/' . $relativePath) . '/';
+        $filePath = $uploadPath . $user_photo;
+
         $data = [
             "user_login_id" => $user_login_id,
             "user_fullname" => $user_fullname,
@@ -179,10 +186,42 @@ class C_StudySociety extends CI_Controller
         ];
         $success = $this->M_StudySociety->editUserInfo($data);
         if ($success > 0) {
+
+            move_uploaded_file($user_photo_tmp, $filePath);
+
             redirect(site_url('C_StudySociety/home'));
         }
         if ($success > 0) {
             redirect(site_url('C_StudySociety/V_editUserInfo'));
+        }
+    }
+
+    public function V_userProfile()
+    {
+        $username = $_GET['username'];
+        $user_data = $this->M_StudySociety->getUserInfo($username);
+        if (!empty($user_data)) {
+            $user_id = $user_data[0]->user_id;
+            $user_posts = $this->M_StudySociety->getUserPosts($user_id);
+            $data = [
+                "username" => $username,
+                "user_fullname" => $user_data[0]->user_fullname,
+                "user_birthday" => $user_data[0]->user_birthday,
+                "user_sex" => $user_data[0]->user_sex,
+                "user_type" => $user_data[0]->user_type,
+                "user_institution" => $user_data[0]->user_institution,
+                "user_bio" => $user_data[0]->user_bio,
+                "user_photo" => $user_data[0]->user_photo
+            ];
+            if(!empty($user_posts)){
+                $data['user_posts'] = $user_posts;
+            }
+            else{
+                $data['user_posts'] = "Kosong";
+            }
+            $this->load->view('V_userProfile', $data);
+        } else {
+            echo $username;
         }
     }
 
@@ -201,7 +240,7 @@ class C_StudySociety extends CI_Controller
         // Check if the request contains an uploaded image file
         if (!empty($_FILES['image']['name'])) {
             // Define the relative upload directory path
-            $relativePath = '../../assets/userFiles/'.$this->session->username.'/post_images/';
+            $relativePath = '../../assets/userFiles/' . $this->session->username . '/post_images/';
 
             // Construct the absolute file system path
             $uploadPath = realpath(__DIR__ . '/' . $relativePath) . '/';
@@ -216,7 +255,7 @@ class C_StudySociety extends CI_Controller
             move_uploaded_file($_FILES['image']['tmp_name'], $filePath);
 
             // Construct the image URL
-            $imageUrl = base_url('assets/userFiles/'.$this->session->username.'/post_images/'. $fileName);
+            $imageUrl = base_url('assets/userFiles/' . $this->session->username . '/post_images/' . $fileName);
 
             // Prepare the response with the image URL
             $response = array(
@@ -252,7 +291,7 @@ class C_StudySociety extends CI_Controller
         $filename = basename($imageUrl);
 
         // Define the path to the image file
-        $filePath = FCPATH . 'assets/userFiles/'.$this->session->username.'/post_images/' . $filename;
+        $filePath = FCPATH . 'assets/userFiles/' . $this->session->username . '/post_images/' . $filename;
 
         // Check if the file exists and delete it
         if (file_exists($filePath)) {
@@ -284,7 +323,7 @@ class C_StudySociety extends CI_Controller
         $post_content = $this->input->post('post_content');
         $topic_id = $this->input->post('topic');
         $grade_id = $this->input->post('grade');
-        $tags = explode(",",$this->input->post('tags'));
+        $tags = explode(",", $this->input->post('tags'));
         $resource_name = $_FILES['resource']['name'];
         $resource_tmp_name = $_FILES['resource']['tmp_name'];
         $data = [
@@ -297,23 +336,16 @@ class C_StudySociety extends CI_Controller
             "resource_name" => $resource_name,
             "resource_tmp_name" => $resource_tmp_name
         ];
-        // $this->load->view('V_Test', $data);
         $success = $this->M_StudySociety->addPostData($data);
-        if($success['post_inserted'] > 0){
-            if($success['resource_inserted']){
-            $relativePath = '../../assets/userFiles/'.$this->session->username.'/resource/other/';
+        if ($success['post_inserted'] > 0) {
+            if ($success['resource_inserted']) {
 
-            // Construct the absolute file system path
-            $uploadPath = realpath(__DIR__ . '/' . $relativePath) . '/';
+                $relativePath = '../../assets/userFiles/' . $this->session->username . '/resource/other/';
+                $uploadPath = realpath(__DIR__ . '/' . $relativePath) . '/';
+                $filePath = $uploadPath . $resource_name;
 
-            // Generate a unique file name
-
-            // Construct the file system path
-            $filePath = $uploadPath . $resource_name;
-
-            // Upload the file to the specified directory
-            move_uploaded_file($resource_tmp_name, $filePath);
-            redirect(site_url('C_StudySociety/home'));
+                move_uploaded_file($resource_tmp_name, $filePath);
+                redirect(site_url('C_StudySociety/home'));
             }
         }
     }
