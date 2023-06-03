@@ -37,7 +37,7 @@
 <input type="text" name="user_institution" id="user_institution" placeholder="Institusi (contoh Universitas Pendidikan Indonesia)" value="<?= $user_institution?>"> <br>
 <input type="text" name="user_bio" id="user_bio" placeholder="Bio" value="<?= $user_bio?>"> <br>
 <label for="user_photo">Foto</label>
-<input type="file" name="user_photo" id="user_photo">
+<input type="file" name="user_photo" id="user_photo" accept="image/*">
 <button type="submit">Simpan</button>
 </form>
 <?php include "templates/V_footer.php"; ?>

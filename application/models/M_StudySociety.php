@@ -44,6 +44,10 @@ class M_StudySociety extends CI_Model {
         $query = $this->db->query("SELECT * FROM user_info JOIN user_login ON user_info.user_login_id = user_login.user_login_id WHERE user_login.username = '$username'");
         return $query->result();
     }
+    public function getUserPosts($user_id){
+        $query = $this->db->query("SELECT post_id, post_title FROM post WHERE user_id = '$user_id'");
+        return $query->result();
+    }
     public function getPostAll(){
         $query = $this->db->query("SELECT * FROM post");
         return $query->result();
