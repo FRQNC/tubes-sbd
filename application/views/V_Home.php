@@ -109,40 +109,46 @@
               <span class="section-heading-upper">Cari Materi</span>
             </h2>
             <p>Tuliskan kata kunci materi yang ingin kamu cari</p>
-		<form action="" method="get" style="flex-direction: row; align-items:center">
-			<div>
-				<input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." value="<?= html_escape($keyword) ?>" required maxlength="32" />
-				<input type="submit" class="button button-primary" value="Cari">
-			</div>
-		</form>
-        <br />
-		<?php if ($search_result) : ?>
-			<div class="search-result">
-				<hr>
-				<?php foreach ($search_result as $post) : ?>
-					<a href=""> 
-                        <div class="card col-sm-5" style="margin: 15px;">
-                        <img src="<?php echo base_url('assets/2.jpg'); ?>" alt="card-hover">
-                        <div class="con-text">
-                            <h2><?php echo $post->post_title; ?></h2>
-                            <p>
-                                <?php echo $post->post_content; ?>
-                            </p>
-                        </div>
+<form action="" method="get" style="flex-direction: row; align-items:center">
+    <div>
+        <input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." value="<?= html_escape($keyword) ?>" maxlength="32" />
+        <select name="search_by">
+            <option value="topic" <?php if ($searchBy === 'topic') echo 'selected'; ?>>Search by Topic</option>
+            <option value="tag" <?php if ($searchBy === 'tag') echo 'selected'; ?>>Search by Tag</option>
+            <option value="grade" <?php if ($searchBy === 'grade') echo 'selected'; ?>>Search by Grade</option>
+        </select>
+        <input type="submit" class="button button-primary" value="Cari">
+    </div>
+</form>
+<br />
+
+<?php if ($search_result) : ?>
+    <div class="search-result">
+        <hr>
+        <?php foreach ($search_result as $post) : ?>
+            <a href="">
+                <div class="card col-sm-5" style="margin: 15px;">
+                    <img src="<?php echo base_url('assets/2.jpg'); ?>" alt="card-hover">
+                    <div class="con-text">
+                        <h2><?php echo $post->post_title; ?></h2>
+                        <p>
+                            <?php echo $post->post_content; ?>
+                        </p>
                     </div>
-                    </a>
-				<?php endforeach ?>
-			</div>
-            <?php else : ?>
-                <?php if ($keyword) : ?>
-                    <div style="height: 400px;">
-                        <br>
-                        <br>
-                        <h4>Tidak ada  data yang ditemukan dari kata kunci <b><?php echo $keyword; ?></b></h4>
-                        <p>Coba dengan kata kunci yang lain</p>
-                    </div>
-                    <?php endif ?>
-                    <?php endif ?>
+                </div>
+            </a>
+        <?php endforeach ?>
+    </div>
+<?php else : ?>
+    <?php if ($keyword) : ?>
+        <div style="height: 400px;">
+            <br>
+            <br>
+            <h4>Tidak ada data yang ditemukan dari kata kunci <b><?php echo $keyword; ?></b></h4>
+            <p>Coba dengan kata kunci yang lain</p>
+        </div>
+    <?php endif ?>
+<?php endif ?>
                 </div>
                 
                 

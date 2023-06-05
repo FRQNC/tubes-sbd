@@ -18,15 +18,16 @@ class C_StudySociety extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
+
+     public function index()
+	{
+		$this->load->view('V_landing');
+	}
 	public function __construct()
 	{
 		parent:: __construct();
 		$this->load->model('M_StudySociety');
 	} 
-	public function index()
-	{
-		$this->load->view('V_landing');
-	}
 
     public function register(){
         $this->load->view('V_register');
@@ -35,11 +36,26 @@ class C_StudySociety extends CI_Controller {
     public function login(){
         $this->load->view('V_login');
     }
-    public function home(){
-        $data['keyword'] = $this->input->get('keyword');
-		$this->load->model('M_StudySociety');
-		$data['search_result'] = $this->M_StudySociety->search($data['keyword']);
-        $this->load->view('V_Home', $data,);
+    // public function home(){
+    //     $data['keyword'] = $this->input->get('keyword');
+	// 	$this->load->model('M_StudySociety');
+	// 	$data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+    //     $this->load->view('V_Home', $data);
+    // }
+
+    public function home()
+    {
+        $keyword = $this->input->get('keyword');
+        $searchBy = $this->input->get('search_by');
+        $searchValue = $this->input->get('search_value');
+    
+        $this->load->model('M_StudySociety');
+        $data['search_result'] = $this->M_StudySociety->search($keyword, $searchBy, $searchValue);
+        $data['keyword'] = $keyword;
+        $data['searchBy'] = $searchBy;
+        $data['searchValue'] = $searchValue;
+    
+        $this->load->view('V_Home', $data);
     }
 
     public function confirmRegistration()
@@ -65,7 +81,7 @@ class C_StudySociety extends CI_Controller {
     $this->load->model('M_StudySociety');
     $result = $this->M_StudySociety->addUser($data);
     if ($result > 0) {
-        redirect('C_StudySociety');
+        redirect('C_StudySociety/login');
     } else {
         redirect('C_StudySociety/register');
     }
@@ -92,7 +108,7 @@ public function confirmLogin()
     if ($result) {
         redirect('C_StudySociety/home');
     } else {
-        redirect('C_StudySociety/home');
+        redirect('C_StudySociety');
     }
 }
 
