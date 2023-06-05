@@ -47,12 +47,33 @@ class C_StudySociety extends CI_Controller
         $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
         $this->load->view('V_login', $data);
     }
+    // public function home(){
+    //     $data['keyword'] = $this->input->get('keyword');
+	// 	$this->load->model('M_StudySociety');
+	// 	$data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+    //     $this->load->view('V_Home', $data);
+    // }
+
     public function home()
     {
-        $data['keyword'] = $this->input->get('keyword');
+        $data['search_result'] = array();
+        $data['keyword'] = '';
+        $data['searchBy'] = '';
+        $data['searchValue'] = '';
+        $this->load->view('V_Home',$data);
+    }
+    
+    public function search() {
+        $keyword = $this->input->get('keyword');
+        $searchBy = $this->input->get('search_by');
+        $searchValue = $this->input->get('search_value');
+    
         $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
-        $this->load->view('V_Home', $data);
+        $data['search_result'] = $this->M_StudySociety->search($keyword, $searchBy, $searchValue);
+        $data['keyword'] = $keyword;
+        $data['searchBy'] = $searchBy;
+        $data['searchValue'] = $searchValue;
+        $this->load->view('V_Home',$data);
     }
 
     public function confirmRegistration()
