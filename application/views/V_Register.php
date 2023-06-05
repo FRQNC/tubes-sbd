@@ -105,6 +105,7 @@
     <div class="row">
       <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
         <div class="form-container">
+        <p><?=$this->session->flashdata('msg');?></p>
           <h3 class="title">Register</h3>
           <form class="form-horizontal" action="<?= site_url('C_StudySociety/confirmRegistration')?>" method="POST" id="registrationForm">
             <div class="form-icon">
