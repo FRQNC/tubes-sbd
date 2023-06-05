@@ -55,6 +55,18 @@
     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
       
       <ul class="nav navbar-nav">   
+        <li>
+          <br>
+          <br>
+          <div>
+          <form action="" method="get">
+            <div>
+              <input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." value="<?= html_escape($keyword) ?>" required maxlength="32" />
+              <input type="submit" class="button button-primary" value="Cari">
+            </div>
+          </form>
+        </div>
+        </li>          
         <li><a href="<?php echo site_url('/');?>">HOME</a></li>            
         <li><a href="<?php echo site_url('C_StudySociety/home');?>">MATERI</a></li>        
         <li><a href="<?php echo site_url('C_StudySociety/login');?>">lOGIN</a></li>        

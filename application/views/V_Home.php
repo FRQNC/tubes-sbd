@@ -106,16 +106,6 @@
 <div class="container">
     <center>
 <h2 class="section-heading mb-4">
-              <span class="section-heading-upper">Cari Materi</span>
-            </h2>
-            <p>Tuliskan kata kunci materi yang ingin kamu cari</p>
-		<form action="" method="get" style="flex-direction: row; align-items:center">
-			<div>
-				<input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." value="<?= html_escape($keyword) ?>" required maxlength="32" />
-				<input type="submit" class="button button-primary" value="Cari">
-			</div>
-		</form>
-        <br />
 		<?php if ($search_result) : ?>
 			<div class="search-result">
 				<hr>
