@@ -59,19 +59,21 @@ class M_StudySociety extends CI_Model {
 
 //     public function search($keyword)
 // {
-// 	if(!$keyword){
-// 		return null;
-// 	}
-//     else {
-//         $query =  $this->db->query("SELECT * FROM post WHERE post_content like '%".$keyword."%'");
-//         return $query->result();
+    //     else {
+        //         $query =  $this->db->query("SELECT * FROM post WHERE post_content like '%".$keyword."%'");
+        //         return $query->result();
 //     }
 // }
 
 public function search($keyword, $searchBy)
 {
-
     $query = "";
+    	if(!$keyword){
+    		return null;
+    	}
+    	if(!$searchBy){
+    		return null;
+    	}
     if ($searchBy === 'tag') {
         $query = $this->db->query("SELECT *
             FROM post_tags

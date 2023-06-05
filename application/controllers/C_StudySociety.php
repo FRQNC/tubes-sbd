@@ -27,24 +27,27 @@ class C_StudySociety extends CI_Controller
     public function index()
     {
         $data['keyword'] = $this->input->get('keyword');
+        $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
         $this->load->view('V_landing', $data);
     }
 
     public function register()
     {
         $data['keyword'] = $this->input->get('keyword');
+        $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
         $this->load->view('V_register', $data);
     }
 
     public function login()
     {
         $data['keyword'] = $this->input->get('keyword');
+        $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
         $this->load->view('V_login', $data);
     }
     // public function home(){
@@ -411,8 +414,9 @@ class C_StudySociety extends CI_Controller
             $data['post_tags'] = array();
             $tags = $this->M_StudySociety->getPostTags($post_id);
             $data['keyword'] = $this->input->get('keyword');
-        $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+            $data['searchby'] = $this->input->get('searchby');
+            $this->load->model('M_StudySociety');
+            $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
             if (!empty($tags)) {
                 $data['post_tags'] = $tags;
             }
@@ -467,4 +471,12 @@ class C_StudySociety extends CI_Controller
             ->set_content_type('application/json')
             ->set_output(json_encode($response));
     }
+
+    public function logout()
+	{
+	    $this->session->sess_destroy();
+		redirect('C_StudySociety/');
+	}
+
 }
+

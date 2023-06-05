@@ -68,11 +68,12 @@
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-
+        
         <ul class="nav navbar-nav">
           <li><a href="<?php echo site_url('/'); ?>">HOME</a></li>
           <li><a href="<?php echo site_url('C_StudySociety/home'); ?>">MATERI</a></li>
-          <li><a href="<?php echo site_url('C_StudySociety/login'); ?>">lOGIN</a></li>
+          <li><a href="<?php echo site_url('C_StudySociety/V_edituserinfo'); ?>">USER INFO</a></li>
+          <li><a href="<?php echo site_url('C_StudySociety/logout'); ?>">lOGOUT</a></li>
         </ul>
       </div><!-- Wnavbar-collapse -->
     </div><!-- container-fluid -->
