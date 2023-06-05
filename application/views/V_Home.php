@@ -128,7 +128,7 @@
         <?php foreach ($search_result as $post) : ?>
             <a href="<?php echo site_url('C_StudySociety/seePost/?post_id=').$post->post_id;?>">
                 <div class="card col-sm-5" style="margin: 15px;">
-                    <img src="<?php echo base_url('assets/1.jpg'); ?>" alt="card-hover">
+                    <img src="<?php echo base_url('assets/2.jpg'); ?>" alt="card-hover">
                     <div class="con-text">
                         <h3><?php echo $post->post_title; ?></h3>
                     </div>

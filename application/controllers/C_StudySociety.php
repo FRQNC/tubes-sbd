@@ -30,6 +30,10 @@ class C_StudySociety extends CI_Controller
         $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
         $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
+        $gradeData = $this->M_StudySociety->getAllGrade();
+            $topicData = $this->M_StudySociety->getAllTopic();
+            $data = ["grade" => $gradeData, "topic" => $topicData];
+        
         $this->load->view('V_landing', $data);
     }
 
@@ -39,12 +43,18 @@ class C_StudySociety extends CI_Controller
         $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
         $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
+        $gradeData = $this->M_StudySociety->getAllGrade();
+            $topicData = $this->M_StudySociety->getAllTopic();
+            $data = ["grade" => $gradeData, "topic" => $topicData];
         $this->load->view('V_register', $data);
     }
 
     public function login()
     {
-        $this->load->view('V_login');
+        $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $data = ["grade" => $gradeData, "topic" => $topicData];
+        $this->load->view('V_login', $data);
     }
     // public function home(){
     //     $data['keyword'] = $this->input->get('keyword');
@@ -55,6 +65,9 @@ class C_StudySociety extends CI_Controller
 
     public function home()
     {
+        $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $data = ["grade" => $gradeData, "topic" => $topicData];
         $data['search_result'] = array();
         $data['keyword'] = '';
         $data['searchBy'] = '';
@@ -183,7 +196,8 @@ class C_StudySociety extends CI_Controller
                 $user_bio = $dt[0]->user_bio;
                 $user_photo = $dt[0]->user_photo;
             }
-
+            $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
             $data = [
                 "user_fullname" => $user_fullname,
                 "user_birthday" => $user_birthday,
@@ -191,8 +205,11 @@ class C_StudySociety extends CI_Controller
                 "user_type" => $user_type,
                 "user_institution" => $user_institution,
                 "user_bio" => $user_bio,
-                "user_photo" => $user_photo
+                "user_photo" => $user_photo,
+                "grade" => $gradeData,
+                "topic" => $topicData
             ];
+            
             $this->load->view("V_EditUserInfo", $data);
         }
     }

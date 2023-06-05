@@ -55,7 +55,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <button onclick="postLiked()" id="like-button"
+            <button onclick="postLiked()" id="like-button" style="background-color: transparent;"
             <?php 
             if ($this->session->is_logged_in == 0) echo 'disabled';
             if(!empty($viewer_like_data)){
@@ -64,9 +64,9 @@
                 }
             }
             ?>
-            >Like</button>
+            ><i class="fa fa-thumbs-up fa-2x"></i></button>
             <p style="display:inline" id="like-count"></p>
-            <button onclick="postDisliked()" id="dislike-button"
+            <button onclick="postDisliked()" id="dislike-button" style="background-color: transparent;"
             <?php 
             if ($this->session->is_logged_in == 0) echo 'disabled';
             if(!empty($viewer_like_data)){
@@ -75,7 +75,7 @@
                 }
             }
             ?>
-            >Dislike</button>
+            ><i class="fa fa-thumbs-down fa-2x"></i></button>
             <p style="display:inline" id="dislike-count"></p>
         </div>
     </div>
