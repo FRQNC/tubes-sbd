@@ -55,6 +55,7 @@ class C_StudySociety extends CI_Controller
         $this->form_validation->set_rules('user_login_password', 'Password', 'required|min_length[8]');
 
         if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('msg', '<p style="color:red;">gagal mendaftar!</p>');
             redirect('C_StudySociety/register');
         }
 
@@ -87,9 +88,10 @@ class C_StudySociety extends CI_Controller
             } else {
                 echo 'Folder already exists.';
             }
-
+            $this->session->set_flashdata('msg', '<p style="color:green">Berhasil mendaftar</p>');
             redirect('C_StudySociety/login');
         } else {
+            $this->session->set_flashdata('msg', '<p style="color:red;">gagal mendaftar!</p>');
             redirect('C_StudySociety/register');
         }
     }
@@ -102,6 +104,7 @@ class C_StudySociety extends CI_Controller
         $this->form_validation->set_rules('user_login_password', 'Password', 'required');
 
         if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('msg', '<p style="color:red;">Invalid Username or Password!</p>');
             redirect('C_StudySociety/login');
         }
 
@@ -123,6 +126,7 @@ class C_StudySociety extends CI_Controller
             $this->session->set_userdata($data);
             redirect('C_StudySociety/V_userProfile/?username=' . $username);
         } else {
+            $this->session->set_flashdata('msg', '<p style="color:red;">Invalid Username or Password!</p>');
             redirect('C_StudySociety/login');
         }
     }

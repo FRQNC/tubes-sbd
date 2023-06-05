@@ -106,6 +106,7 @@
         <div class="row">
             <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
                 <div class="form-container">
+                <p><?=$this->session->flashdata('msg');?></p>
                     <h3 class="title">My Account</h3>
                     <form class="form-horizontal" action="<?= site_url('C_StudySociety/confirmLogin')?>" method="POST">
                         <div class="form-icon">
