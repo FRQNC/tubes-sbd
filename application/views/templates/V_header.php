@@ -54,7 +54,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
       
-      <ul class="nav navbar-nav">        
+      <ul class="nav navbar-nav">   
         <li><a href="<?php echo site_url('/');?>">HOME</a></li>            
         <li><a href="<?php echo site_url('C_StudySociety/home');?>">MATERI</a></li>        
         <li><a href="<?php echo site_url('C_StudySociety/login');?>">lOGIN</a></li>        

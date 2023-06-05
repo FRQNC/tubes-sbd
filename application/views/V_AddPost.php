@@ -115,9 +115,10 @@
       <input type="file" name="resource" id="post-resource" class="form-control">
       <button type="submit" id="btn-submit" class="btn btn-primary">Post</button>
     </form>
+    <div id="output-data"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
-  <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.3.0"></script><!-- Image -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
@@ -203,7 +204,7 @@
             config: {
               endpoints: {
                 byFile: '<?= site_url('C_StudySociety/upload_image_to_post') ?>', // Your backend file uploader endpoint
-                byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+                byUrl: '<?= site_url('C_StudySociety/upload_image_by_url') ?>', // Your endpoint that provides uploading by Url
               }
             }
           },
@@ -215,9 +216,10 @@
           },
 
           checklist: {
-            class: Checklist,
-            inlineToolbar: true,
-          },
+          class: Checklist,
+          inlineToolbar: true,
+        },
+
 
           quote: {
             class: Quote,
@@ -312,10 +314,13 @@
       }
 
       let submitBtn = document.querySelector('#btn-submit');
+      let output = document.querySelector('#output-data');
       submitBtn.addEventListener('click', function(event) {
         event.preventDefault();
         editor.save().then((savedData) => {
 
+          // output.innerHTML = JSON.stringify(savedData);
+          
           let post_content_input = document.createElement('input');
           post_content_input.type = "text";
           post_content_input.name = "post_content";
@@ -324,7 +329,9 @@
           let tag_input = document.createElement('input');
           tag_input.type = "text";
           tag_input.name = "tags";
-          tag_input.value = tags;
+          if(tags.length > 0) {
+            tag_input.value = tags;
+          }
 
           let parentElement = document.getElementById('post_form');
           parentElement.appendChild(post_content_input);
