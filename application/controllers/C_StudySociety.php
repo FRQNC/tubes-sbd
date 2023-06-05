@@ -43,10 +43,7 @@ class C_StudySociety extends CI_Controller
 
     public function login()
     {
-        $data['keyword'] = $this->input->get('keyword');
-        $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
-        $this->load->view('V_login', $data);
+        $this->load->view('V_login');
     }
     // public function home(){
     //     $data['keyword'] = $this->input->get('keyword');
@@ -409,11 +406,13 @@ class C_StudySociety extends CI_Controller
             $data['post_data'] = $post_data[0];
             $data['post_blocks'] = json_decode($post_data[0]->post_content, true)['blocks'];
             $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
+            $data['viewer_like_data'] = $this->M_StudySociety->getPostLikeData($post_id,$this->session->user_id);
             $data['post_tags'] = array();
             $tags = $this->M_StudySociety->getPostTags($post_id);
             $data['keyword'] = $this->input->get('keyword');
+            $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
             if (!empty($tags)) {
                 $data['post_tags'] = $tags;
             }
@@ -422,16 +421,16 @@ class C_StudySociety extends CI_Controller
         }
     }
 
-    public function seePostData()
-    {
-        $post_id = $_GET['post_id'];
-        $post_data = $this->M_StudySociety->getPostData($post_id);
-        if (!empty($post_data)) {
-            $data['post_data'] = $post_data[0];
-            $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
-            $this->load->view('V_Test', $data);
-        }
-    }
+    // public function seePostData()
+    // {
+    //     $post_id = $_GET['post_id'];
+    //     $post_data = $this->M_StudySociety->getPostData($post_id);
+    //     if (!empty($post_data)) {
+    //         $data['post_data'] = $post_data[0];
+    //         $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
+    //         $this->load->view('V_Test', $data);
+    //     }
+    // }
 
     public function ratePost()
     {
@@ -463,9 +462,22 @@ class C_StudySociety extends CI_Controller
             );
         }
 
-        $this->load->library('output');
+        // $this->load->library('output');
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($response));
     }
 }
+
+/* 
+- Navbar sesudah/sebelum login
+- Tambah search bar di nav barW
+- Halaman list materi dari search
+- Styling view post
+- Comment post
+- Halaman List topic
+- Dropdown navbar grade
+- Log out
+- Upload photo issue
+- Sort uploaded user file
+*/
