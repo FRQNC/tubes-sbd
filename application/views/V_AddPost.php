@@ -52,33 +52,8 @@
 
 <body id="home">
 
-  <!-- header -->
-  <nav class="navbar  navbar-default" role="navigation">
-    <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="<?php echo site_url('C_StudySociety/index'); ?>"><img src="<?php echo base_url('assets/logo.png'); ?>" style="width:50px;" alt="study society"></a>
-      </div>
+<?php include "templates/V_header.php"; ?>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-        
-        <ul class="nav navbar-nav">
-          <li><a href="<?php echo site_url('/'); ?>">HOME</a></li>
-          <li><a href="<?php echo site_url('C_StudySociety/home'); ?>">MATERI</a></li>
-          <li><a href="<?php echo site_url('C_StudySociety/V_edituserinfo'); ?>">USER INFO</a></li>
-          <li><a href="<?php echo site_url('C_StudySociety/logout'); ?>">lOGOUT</a></li>
-        </ul>
-      </div><!-- Wnavbar-collapse -->
-    </div><!-- container-fluid -->
-  </nav>
-  <!-- header -->
   <div class="container">
     <br>
     <br>
@@ -86,10 +61,10 @@
       <input type="hidden" name="user_id" value="<?= $userdata->user_id ?>">
       <div class="row">
         <div class="col">
-          <input type="text" name="post_title" id="title" placeholder="Judul post" class="form-control"> <br>
+          <input type="text" name="post_title" id="title" placeholder="Judul post" class="form-control" required> <br>
         </div>
       </div>
-      <select name="topic" id="topic" class="form-select"> <br>
+      <select name="topic" id="topic" class="form-select" required> <br>
         <option value="">Pilih Topik</option>
         <?php
         foreach ($topic as $t) {
@@ -99,7 +74,7 @@
         }
         ?>
       </select>
-      <select name="grade" id="grade"> <br>
+      <select name="grade" id="grade" required> <br>
         <option value="">Pilih Tingkat/Kelas</option>
         <?php
         foreach ($grade as $g) {
@@ -118,7 +93,6 @@
       <input type="file" name="resource" id="post-resource" class="form-control">
       <button type="submit" id="btn-submit" class="btn btn-primary">Post</button>
     </form>
-    <div id="output-data"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->

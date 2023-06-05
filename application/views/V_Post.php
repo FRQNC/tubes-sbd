@@ -1,38 +1,41 @@
 <?php include "templates/V_header.php" ?>
 <style>
-.wrap{
-width: 800px;
-color:black;
-margin: 20px auto;
-padding:15px;
-}
+    .wrap {
+        width: 800px;
+        color: black;
+        margin: 20px auto;
+        padding: 15px;
+    }
 </style>
 <br>
 <div class="container">
     <div class="row">
-    <table style="padding: 5%;">
-        <tr><td rowspan="10" width="100px">
-        <tr >
-            <td> <h3 class="title-text"><?= $post_data->post_title ?></h3></td>
-        </tr>
-        <tr>
-            <td><b>Ditulis oleh </b></td>
-            <td>:</td> 
-            <td>  <?= $user_data->user_fullname ?>(@<?= $user_data->username ?>)</td>
-        </tr>
-        <tr>
-            <td><b>Topik </b></td>
-            <td>:</td> 
-            <td> <?= $post_data->topic_name ?></td>
-        </tr>
-        <tr>
-            <td><b>Tingkat </b></td>
-            <td>:</td> 
-            <td> <?= $post_data->grade_name ?></td>
-        </tr>
-    </table>
-    <br>
-    <br>
+        <table style="padding: 5%;">
+            <tr>
+                <td rowspan="10" width="100px">
+            <tr>
+                <td>
+                    <h3 class="title-text"><?= $post_data->post_title ?></h3>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Ditulis oleh </b></td>
+                <td>:</td>
+                <td> <?= $user_data->user_fullname ?>(@<?= $user_data->username ?>)</td>
+            </tr>
+            <tr>
+                <td><b>Topik </b></td>
+                <td>:</td>
+                <td> <?= $post_data->topic_name ?></td>
+            </tr>
+            <tr>
+                <td><b>Tingkat </b></td>
+                <td>:</td>
+                <td> <?= $post_data->grade_name ?></td>
+            </tr>
+        </table>
+        <br>
+        <br>
     </div>
     <div class="row">
         <div class="col">
@@ -52,16 +55,68 @@ padding:15px;
     </div>
     <div class="row">
         <div class="col">
-            <button onclick="postLiked()" <?php if($this->session->is_logged_in == 0) echo 'disabled' ?>>Like</button>
+            <button onclick="postLiked()" id="like-button"
+            <?php 
+            if ($this->session->is_logged_in == 0) echo 'disabled';
+            if(!empty($viewer_like_data)){
+                if($viewer_like_data[0]->user_has_liked){
+                    echo 'style="background-color:blue"';
+                }
+            }
+            ?>
+            >Like</button>
             <p style="display:inline" id="like-count"></p>
-            <button onclick="postDisliked()" <?php if($this->session->is_logged_in == 0) echo 'disabled' ?>>Dislike</button>
+            <button onclick="postDisliked()" id="dislike-button"
+            <?php 
+            if ($this->session->is_logged_in == 0) echo 'disabled';
+            if(!empty($viewer_like_data)){
+                if($viewer_like_data[0]->user_has_disliked){
+                    echo 'style="background-color:red"';
+                }
+            }
+            ?>
+            >Dislike</button>
             <p style="display:inline" id="dislike-count"></p>
         </div>
     </div>
     <div class="row my-3">
         <div id="editorjs"></div>
     </div> <br>
-
+    <div class="row">
+        <hr style="border:5px solid">
+        <h2>Komentar</h2>
+    </div>
+    <?php if($this->session->is_logged_in){ ?>
+    <div class="row" style="margin-bottom:25px">
+        <form action="<?= site_url('C_StudySociety/addComment')?>" method="POST">
+            <input type="hidden" name="post_id" value="<?=$post_data->post_id?>">
+            <input type="hidden" name="user_id" value="<?=$this->session->user_id?>">
+            <textarea name="comment_content" id="" cols="80" rows="5" placeholder="Berkomentar sebagai <?= $this->session->username?>" required></textarea> <br> <br>
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+    <?php } ?>
+    <div class="row">
+        <?php
+            if(empty($post_comments)){
+                echo "<h4> Belum ada komentar </h4>";
+            }
+            else{
+                foreach($post_comments as $comment){
+        ?>
+        <div class="comment" style="margin-top:10px;margin-bottom:10px;">
+            <a href="<?= site_url('C_StudySociety/V_userProfile/?username='.$comment->username)?>" style="text-decoration:none"><?= $comment->user_fullname?></a>
+            <?php if($this->session->username == $comment->username){ ?>
+            <a href="<?= site_url('C_StudySociety/deleteComment/?comment_id='.$comment->comment_id.'&post_id='.$post_data->post_id)?>" style="margin-left:10px;">Hapus</a>
+            <?php } ?>
+            <br>
+            <p><?= $comment->comment_content?></p>
+        </div>
+        <?php 
+                }
+            } 
+        ?>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->
@@ -107,11 +162,6 @@ padding:15px;
         }
     }
     $(document).ready(function() {
-        let likeCount = <?= $post_data->post_like_count?>;
-        let dislikeCount = <?= $post_data->post_dislike_count?>;
-        document.querySelector('#like-count').innerHTML = likeCount;
-        document.querySelector('#dislike-count').innerHTML = dislikeCount;
-        
         var editor = new EditorJS({
             /**
              * Enable/Disable the read only mode
@@ -226,9 +276,19 @@ padding:15px;
 
     });
 
-    let postId = <?= $post_data->post_id?>;
-    <?php if($this->session->is_logged_in == 0) $this->session->set_userdata('user_id',0) ?>
-    let userId = <?= $this->session->user_id?>;
+    let postId = <?= $post_data->post_id ?>;
+    <?php if ($this->session->is_logged_in == 0) $this->session->set_userdata('user_id', 0) ?>
+    let userId = <?= $this->session->user_id ?>;
+
+    let likeCount = <?= $post_data->post_like_count ?>;
+    let dislikeCount = <?= $post_data->post_dislike_count ?>;
+    let likeButton = document.querySelector('#like-button'); 
+    let likeText = document.querySelector('#like-count');
+    let dislikeButton = document.querySelector('#dislike-button'); 
+    let dislikeText = document.querySelector('#dislike-count');
+
+    likeText.innerHTML = likeCount;
+    dislikeText.innerHTML = dislikeCount;
 
     function postLiked() {
         $.ajax({
@@ -236,16 +296,28 @@ padding:15px;
             method: 'POST',
             data: {
                 rating: 1,
-                post_id : postId,
-                user_id : userId
+                post_id: postId,
+                user_id: userId
             },
             success: (response) => {
                 // Handle the success response if needed
-                if(response.success){
-                    likeCount += response.like_data_add;
-                    dislikeCount += response.dislike_data_add;
-                    document.querySelector('#like-count').innerHTML = likeCount;
-                    document.querySelector('#dislike-count').innerHTML = dislikeCount;
+                if (response.success) {
+                    likeCount += response.liked;
+                    dislikeCount += response.disliked;
+                    likeText.innerHTML = likeCount;
+                    dislikeText.innerHTML = dislikeCount;
+                    if(response.liked < 0){
+                        likeButton.removeAttribute('style');
+                    }
+                    else if(response.liked > 0){
+                        likeButton.style = "background-color:blue";
+                    }
+                    if(response.disliked < 0){
+                        dislikeButton.removeAttribute('style');
+                    }
+                    else if(response.disliked > 0){
+                        dislikeButton.style = "background-color:red";
+                    }
                 }
             },
             error: (error) => {
@@ -253,23 +325,37 @@ padding:15px;
             }
         });
     }
-    function postDisliked(){
-        console.log("disliked");
+
+    function postDisliked() {
         $.ajax({
             url: '<?= site_url('C_StudySociety/ratePost') ?>',
             method: 'POST',
             data: {
-                rating: 2,
-                post_id : postId,
-                user_id : userId
+                rating: -1,
+                post_id: postId,
+                user_id: userId
             },
             success: (response) => {
                 // Handle the success response if needed
                 console.log()
-                likeCount += response.like_data_add;
-                    dislikeCount += response.dislike_data_add;
-                    document.querySelector('#like-count').innerHTML = likeCount;
-                    document.querySelector('#dislike-count').innerHTML = dislikeCount;
+                if (response.success) {
+                    likeCount += response.liked;
+                    dislikeCount += response.disliked;
+                    likeText.innerHTML = likeCount;
+                    dislikeText.innerHTML = dislikeCount;
+                    if(response.liked < 0){
+                        likeButton.removeAttribute('style');
+                    }
+                    else if(response.liked > 0){
+                        likeButton.style = "background-color:blue";
+                    }
+                    if(response.disliked < 0){
+                        dislikeButton.removeAttribute('style');
+                    }
+                    else if(response.disliked > 0){
+                        dislikeButton.style = "background-color:red";
+                    }
+                }
             },
             error: (error) => {
                 // Handle the error if needed
