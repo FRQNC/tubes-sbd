@@ -85,10 +85,10 @@
       <input type="hidden" name="user_id" value="<?= $userdata->user_id ?>">
       <div class="row">
         <div class="col">
-          <input type="text" name="post_title" id="title" placeholder="Judul post" class="form-control"> <br>
+          <input type="text" name="post_title" id="title" placeholder="Judul post" class="form-control" required> <br>
         </div>
       </div>
-      <select name="topic" id="topic" class="form-select"> <br>
+      <select name="topic" id="topic" class="form-select" required> <br>
         <option value="">Pilih Topik</option>
         <?php
         foreach ($topic as $t) {
@@ -98,7 +98,7 @@
         }
         ?>
       </select>
-      <select name="grade" id="grade"> <br>
+      <select name="grade" id="grade" required> <br>
         <option value="">Pilih Tingkat/Kelas</option>
         <?php
         foreach ($grade as $g) {
@@ -117,7 +117,6 @@
       <input type="file" name="resource" id="post-resource" class="form-control">
       <button type="submit" id="btn-submit" class="btn btn-primary">Post</button>
     </form>
-    <div id="output-data"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->

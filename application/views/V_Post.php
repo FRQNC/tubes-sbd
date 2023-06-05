@@ -82,7 +82,41 @@
     <div class="row my-3">
         <div id="editorjs"></div>
     </div> <br>
-
+    <div class="row">
+        <hr style="border:5px solid">
+        <h2>Komentar</h2>
+    </div>
+    <?php if($this->session->is_logged_in){ ?>
+    <div class="row" style="margin-bottom:25px">
+        <form action="<?= site_url('C_StudySociety/addComment')?>" method="POST">
+            <input type="hidden" name="post_id" value="<?=$post_data->post_id?>">
+            <input type="hidden" name="user_id" value="<?=$this->session->user_id?>">
+            <textarea name="comment_content" id="" cols="80" rows="5" placeholder="Berkomentar sebagai <?= $this->session->username?>" required></textarea> <br> <br>
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+    <?php } ?>
+    <div class="row">
+        <?php
+            if(empty($post_comments)){
+                echo "<h4> Belum ada komentar </h4>";
+            }
+            else{
+                foreach($post_comments as $comment){
+        ?>
+        <div class="comment" style="margin-top:10px;margin-bottom:10px;">
+            <a href="<?= site_url('C_StudySociety/V_userProfile/?username='.$comment->username)?>" style="text-decoration:none"><?= $comment->user_fullname?></a>
+            <?php if($this->session->username == $comment->username){ ?>
+            <a href="<?= site_url('C_StudySociety/deleteComment/?comment_id='.$comment->comment_id.'&post_id='.$post_data->post_id)?>" style="margin-left:10px;">Hapus</a>
+            <?php } ?>
+            <br>
+            <p><?= $comment->comment_content?></p>
+        </div>
+        <?php 
+                }
+            } 
+        ?>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->

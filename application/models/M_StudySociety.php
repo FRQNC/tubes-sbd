@@ -263,4 +263,25 @@ class M_StudySociety extends CI_Model
         }
         return $result;
     }
+
+    public function addComment($data){
+        $post_id = $data['post_id'];
+        $user_id = $data['user_id'];
+        $comment_content = $data['comment_content'];
+        $query = $this->db->query("INSERT INTO comment VALUES('','$comment_content','$user_id','$post_id')");
+        return $this->db->affected_rows();
+    }
+
+    public function getPostComments($post_id){
+        $query = $this->db->query("SELECT * FROM comment
+        INNER JOIN user_info ON comment.user_id = user_info.user_id
+        INNER JOIN user_login ON user_info.user_login_id = user_login.user_login_id
+        WHERE post_id = '$post_id'");
+        return $query->result();
+    }
+
+    public function deleteComment($comment_id){
+        $query = $this->db->query("DELETE FROM comment WHERE comment_id = '$comment_id'");
+        return $this->db->affected_rows();
+    }
 }
