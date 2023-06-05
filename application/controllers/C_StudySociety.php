@@ -47,6 +47,14 @@ class C_StudySociety extends CI_Controller
 
     public function home()
     {
+        $data['search_result'] = array();
+        $data['keyword'] = '';
+        $data['searchBy'] = '';
+        $data['searchValue'] = '';
+        $this->load->view('V_Home',$data);
+    }
+    
+    public function search() {
         $keyword = $this->input->get('keyword');
         $searchBy = $this->input->get('search_by');
         $searchValue = $this->input->get('search_value');
@@ -56,8 +64,7 @@ class C_StudySociety extends CI_Controller
         $data['keyword'] = $keyword;
         $data['searchBy'] = $searchBy;
         $data['searchValue'] = $searchValue;
-    
-        $this->load->view('V_Home', $data);
+        $this->load->view('V_Home',$data);
     }
 
     public function confirmRegistration()

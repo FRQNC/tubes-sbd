@@ -71,6 +71,7 @@ class M_StudySociety extends CI_Model {
 public function search($keyword, $searchBy)
 {
 
+    $query = "";
     if ($searchBy === 'tag') {
         $query = $this->db->query("SELECT *
             FROM post_tags

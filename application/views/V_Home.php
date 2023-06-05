@@ -109,9 +109,9 @@
               <span class="section-heading-upper">Cari Materi</span>
             </h2>
             <p>Tuliskan kata kunci materi yang ingin kamu cari</p>
-<form action="" method="get" style="flex-direction: row; align-items:center">
+<form action="<?=site_url('C_StudySociety/search')?>" method="get" style="flex-direction: row; align-items:center">
     <div>
-        <input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." value="<?= html_escape($keyword) ?>" maxlength="32" />
+        <input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." />
         <select name="search_by">
             <option value="topic" <?php if ($searchBy === 'topic') echo 'selected'; ?>>Search by Topic</option>
             <option value="tag" <?php if ($searchBy === 'tag') echo 'selected'; ?>>Search by Tag</option>
@@ -144,7 +144,7 @@
         <div style="height: 400px;">
             <br>
             <br>
-            <h4>Tidak ada data yang ditemukan dari kata kunci <b><?php echo $keyword; ?></b></h4>
+            <h4>Tidak ada data yang ditemukan dari kata kunci <b><?php// echo $keyword; ?></b></h4>
             <p>Coba dengan kata kunci yang lain</p>
         </div>
     <?php endif ?>
