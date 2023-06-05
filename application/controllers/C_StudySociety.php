@@ -26,17 +26,26 @@ class C_StudySociety extends CI_Controller
     }
     public function index()
     {
-        $this->load->view('V_landing');
+        $data['keyword'] = $this->input->get('keyword');
+        $this->load->model('M_StudySociety');
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $this->load->view('V_landing', $data);
     }
 
     public function register()
     {
-        $this->load->view('V_register');
+        $data['keyword'] = $this->input->get('keyword');
+        $this->load->model('M_StudySociety');
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $this->load->view('V_register', $data);
     }
 
     public function login()
     {
-        $this->load->view('V_login');
+        $data['keyword'] = $this->input->get('keyword');
+        $this->load->model('M_StudySociety');
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $this->load->view('V_login', $data);
     }
     // public function home(){
     //     $data['keyword'] = $this->input->get('keyword');
