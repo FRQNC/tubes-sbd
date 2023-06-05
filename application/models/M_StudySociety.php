@@ -57,13 +57,50 @@ class M_StudySociety extends CI_Model {
         return $query->result();
     }
 
-    public function search($keyword)
+//     public function search($keyword)
+// {
+	// if(!$keyword){
+	// 	return null;
+	// }
+//     else {
+//         $query =  $this->db->query("SELECT * FROM post WHERE post_content like '%".$keyword."%'");
+//         return $query->result();
+//     }
+// }
+
+public function search($keyword, $searchBy)
 {
-	if(!$keyword){
+
+    $query = "";
+    if(!$keyword){
 		return null;
 	}
-	$query =  $this->db->query("SELECT * FROM post WHERE post_content like '%".$keyword."%'");
-	return $query->result();
+    if(!$searchBy){
+		return null;
+	}
+    if ($searchBy === 'tag') {
+        $query = $this->db->query("SELECT *
+            FROM post_tags
+            LEFT JOIN tag ON tag.tag_id = post_tags.tag_id
+            LEFT JOIN post ON post.post_id = post_tags.post_id
+            WHERE tag_name LIKE '%".$keyword."%'"
+        );
+    }
+    elseif ($searchBy === 'topic') {
+        $query = $this->db->query("SELECT *
+        FROM post
+        LEFT JOIN topic ON topic.topic_id = post.topic_id
+        WHERE topic_name LIKE '%".$keyword."%'" 
+        );
+    }
+    elseif ($searchBy === 'grade') {
+        $query = $this->db->query("SELECT *
+        FROM post
+        LEFT JOIN grade ON grade.grade_id = post.grade_id
+        WHERE grade_name LIKE '%".$keyword."%'" 
+        );
+    }
+    return $query->result();
 }
 
     public function getAllGrade(){

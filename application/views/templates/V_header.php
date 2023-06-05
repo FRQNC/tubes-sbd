@@ -61,7 +61,7 @@
           <div>
           <form action="" method="get">
             <div>
-              <input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." value="<?= html_escape($keyword) ?>" required maxlength="32" />
+              <input type="search" name="keyword" style="width: 360px;" placeholder="Keyword.." required maxlength="32" />
               <input type="submit" class="button button-primary" value="Cari">
             </div>
           </form>
