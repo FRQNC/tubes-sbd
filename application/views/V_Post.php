@@ -1,20 +1,38 @@
 <?php include "templates/V_header.php" ?>
+<style>
+.wrap{
+width: 800px;
+color:black;
+margin: 20px auto;
+padding:15px;
+}
+</style>
+<br>
 <div class="container">
     <div class="row">
-        <div class="col">
-            <h3 class="title-text"><?= $post_data->post_title ?></h3>
-            <h5 class="post-author">Ditulis oleh : <?= $user_data->user_fullname ?>(@<?= $user_data->username ?>)</h5>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h4 class="topic">Topik : <?= $post_data->topic_name ?></h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h4 class="grade">Tingkat : <?= $post_data->grade_name ?></h4>
-        </div>
+    <table style="padding: 5%;">
+        <tr><td rowspan="10" width="100px">
+        <tr >
+            <td> <h3 class="title-text"><?= $post_data->post_title ?></h3></td>
+        </tr>
+        <tr>
+            <td><b>Ditulis oleh </b></td>
+            <td>:</td> 
+            <td>  <?= $user_data->user_fullname ?>(@<?= $user_data->username ?>)</td>
+        </tr>
+        <tr>
+            <td><b>Topik </b></td>
+            <td>:</td> 
+            <td> <?= $post_data->topic_name ?></td>
+        </tr>
+        <tr>
+            <td><b>Tingkat </b></td>
+            <td>:</td> 
+            <td> <?= $post_data->grade_name ?></td>
+        </tr>
+    </table>
+    <br>
+    <br>
     </div>
     <div class="row">
         <div class="col">

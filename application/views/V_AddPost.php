@@ -79,6 +79,8 @@
   </nav>
   <!-- header -->
   <div class="container">
+    <br>
+    <br>
     <form action="<?= site_url("C_StudySociety/addPost") ?>" method="POST" id="post_form" enctype="multipart/form-data">
       <input type="hidden" name="user_id" value="<?= $userdata->user_id ?>">
       <div class="row">

@@ -111,6 +111,8 @@ padding:15px;
     }
     ?>
 <br>
+<br>
+<button><a href="<?php echo site_url('C_StudySociety/V_addpost'); ?>">ADD POST</a></button>
 <center>
 <h2>Daftar Post</h2>
 <ul>

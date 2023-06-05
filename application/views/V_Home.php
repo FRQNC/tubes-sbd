@@ -106,6 +106,21 @@
 <div class="container">
     <center>
 <h2 class="section-heading mb-4">
+<<<<<<< HEAD
+		<?php if ($search_result) : ?>
+			<div class="search-result">
+				<hr>
+				<?php foreach ($search_result as $post) : ?>
+					<a href="<?php echo site_url('C_StudySociety/seePost/?post_id=').$post->post_id;?>">
+                        <div class="card col-sm-5" style="margin: 15px;">
+                        <img src="<?php echo base_url('assets/2.jpg'); ?>" alt="card-hover">
+                        <div class="con-text">
+                            <h2><?php echo $post->post_title; ?></h2>
+                            <p>
+                                <?php echo $post->post_content; ?>
+                            </p>
+                        </div>
+=======
               <span class="section-heading-upper">Cari Materi</span>
             </h2>
             <p>Tuliskan kata kunci materi yang ingin kamu cari</p>
@@ -134,6 +149,7 @@
                         <p>
                             <?php echo $post->post_content; ?>
                         </p>
+>>>>>>> 52752efd6f28b3e50e0651c66ed282d2fd033a95
                     </div>
                 </div>
             </a>

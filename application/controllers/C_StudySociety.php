@@ -411,6 +411,9 @@ class C_StudySociety extends CI_Controller
             $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
             $data['post_tags'] = array();
             $tags = $this->M_StudySociety->getPostTags($post_id);
+            $data['keyword'] = $this->input->get('keyword');
+        $this->load->model('M_StudySociety');
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
             if (!empty($tags)) {
                 $data['post_tags'] = $tags;
             }
