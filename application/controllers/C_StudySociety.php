@@ -129,14 +129,16 @@ class C_StudySociety extends CI_Controller
         $result = password_verify($form_password, $stored_password->user_login_password);
         if ($result) {
             $user_login_data = $this->M_StudySociety->getUserLogin($username)[0];
+            $user_info = $this->M_StudySociety->getUserInfo($username)[0];
             $data = [
                 "user_login_id" => $user_login_data->user_login_id,
                 "username" => $user_login_data->username,
                 "user_login_privilege" => $user_login_data->user_login_privilege,
+                "user_id" => $user_info->user_id,
                 "is_logged_in" => true
             ];
             $this->session->set_userdata($data);
-            redirect('C_StudySociety/addpost');
+            redirect('C_StudySociety/V_userProfile/?username=' . $username);
         } else {
             $this->session->set_flashdata('msg', '<p style="color:red;">Invalid Username or Password!</p>');
             redirect('C_StudySociety/login');
@@ -145,35 +147,39 @@ class C_StudySociety extends CI_Controller
 
     public function V_editUserInfo()
     {
-        $dt = $this->M_StudySociety->getUserInfo($this->session->username);
-        $data = array();
-        $user_fullname = "";
-        $user_birthday = "";
-        $user_sex = "";
-        $user_type = "";
-        $user_institution = "";
-        $user_bio = "";
-        $user_photo = "default.jpg";
-        if (!empty($dt)) {
-            $user_fullname = $dt[0]->user_fullname;
-            $user_birthday = $dt[0]->user_birthday;
-            $user_sex = $dt[0]->user_sex;
-            $user_type = $dt[0]->user_type;
-            $user_institution = $dt[0]->user_institution;
-            $user_bio = $dt[0]->user_bio;
-            $user_photo = $dt[0]->user_photo;
-        }
+        if (!$this->session->is_logged_in) {
+            redirect(site_url('C_StudySociety/login'));
+        } else {
+            $dt = $this->M_StudySociety->getUserInfo($this->session->username);
+            $data = array();
+            $user_fullname = "";
+            $user_birthday = "";
+            $user_sex = "";
+            $user_type = "";
+            $user_institution = "";
+            $user_bio = "";
+            $user_photo = "default.jpg";
+            if (!empty($dt)) {
+                $user_fullname = $dt[0]->user_fullname;
+                $user_birthday = $dt[0]->user_birthday;
+                $user_sex = $dt[0]->user_sex;
+                $user_type = $dt[0]->user_type;
+                $user_institution = $dt[0]->user_institution;
+                $user_bio = $dt[0]->user_bio;
+                $user_photo = $dt[0]->user_photo;
+            }
 
-        $data = [
-            "user_fullname" => $user_fullname,
-            "user_birthday" => $user_birthday,
-            "user_sex" => $user_sex,
-            "user_type" => $user_type,
-            "user_institution" => $user_institution,
-            "user_bio" => $user_bio,
-            "user_photo" => $user_photo
-        ];
-        $this->load->view("V_EditUserInfo", $data);
+            $data = [
+                "user_fullname" => $user_fullname,
+                "user_birthday" => $user_birthday,
+                "user_sex" => $user_sex,
+                "user_type" => $user_type,
+                "user_institution" => $user_institution,
+                "user_bio" => $user_bio,
+                "user_photo" => $user_photo
+            ];
+            $this->load->view("V_EditUserInfo", $data);
+        }
     }
 
     public function editUserInfo()
@@ -204,13 +210,16 @@ class C_StudySociety extends CI_Controller
         ];
         $success = $this->M_StudySociety->editUserInfo($data);
         if ($success > 0) {
-
+            $old_photo = $this->input->post("user_photo_old");
+            if ($user_photo != $old_photo) {
+                $oldFilePath = $uploadPath . $old_photo;
+                unlink($oldFilePath);
+            }
             move_uploaded_file($user_photo_tmp, $filePath);
 
-            redirect(site_url('C_StudySociety/home'));
-        }
-        if ($success > 0) {
-            redirect(site_url('C_StudySociety/V_editUserInfo'));
+            redirect(site_url('C_StudySociety/V_userProfile/?username=' . $this->session->username));
+        } else {
+            echo "Edit Failed";
         }
     }
 
@@ -231,26 +240,33 @@ class C_StudySociety extends CI_Controller
                 "user_bio" => $user_data[0]->user_bio,
                 "user_photo" => $user_data[0]->user_photo
             ];
-            if(!empty($user_posts)){
+            if (!empty($user_posts)) {
                 $data['user_posts'] = $user_posts;
-            }
-            else{
+            } else {
                 $data['user_posts'] = "Kosong";
             }
             $this->load->view('V_userProfile', $data);
         } else {
-            echo $username;
+            if ($username == $this->session->username) {
+                redirect(site_url('C_StudySociety/V_editUserInfo'));
+            } else {
+                echo $username;
+            }
         }
     }
 
 
     public function V_addPost()
     {
-        $gradeData = $this->M_StudySociety->getAllGrade();
-        $topicData = $this->M_StudySociety->getAllTopic();
-        $userData = $this->M_StudySociety->getUserInfo($this->session->username)[0];
-        $data = ["grade" => $gradeData, "topic" => $topicData, "userdata" => $userData];
-        $this->load->view("V_addPost", $data);
+        if (!$this->session->is_logged_in) {
+            redirect(site_url('C_StudySociety/login'));
+        } else {
+            $gradeData = $this->M_StudySociety->getAllGrade();
+            $topicData = $this->M_StudySociety->getAllTopic();
+            $userData = $this->M_StudySociety->getUserInfo($this->session->username)[0];
+            $data = ["grade" => $gradeData, "topic" => $topicData, "userdata" => $userData];
+            $this->load->view("V_addPost", $data);
+        }
     }
 
     public function upload_image_to_post()
@@ -366,5 +382,70 @@ class C_StudySociety extends CI_Controller
                 redirect(site_url('C_StudySociety/home'));
             }
         }
+    }
+
+    public function seePost()
+    {
+        $post_id = $_GET['post_id'];
+        $post_data = $this->M_StudySociety->getPostData($post_id);
+        if (!empty($post_data)) {
+            $data['post_data'] = $post_data[0];
+            $data['post_blocks'] = json_decode($post_data[0]->post_content, true)['blocks'];
+            $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
+            $data['post_tags'] = array();
+            $tags = $this->M_StudySociety->getPostTags($post_id);
+            if (!empty($tags)) {
+                $data['post_tags'] = $tags;
+            }
+            $this->load->view('V_Post', $data);
+        } else {
+        }
+    }
+
+    public function seePostData()
+    {
+        $post_id = $_GET['post_id'];
+        $post_data = $this->M_StudySociety->getPostData($post_id);
+        if (!empty($post_data)) {
+            $data['post_data'] = $post_data[0];
+            $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
+            $this->load->view('V_Test', $data);
+        }
+    }
+
+    public function ratePost()
+    {
+        $rating = $this->input->post('rating');
+        $data['user_id'] = $this->input->post('user_id');
+        $data['post_id'] = $this->input->post('post_id');
+        $data['user_has_liked'] = 0;
+        $data['user_has_disliked'] = 0;
+
+        if ($rating == 1) {
+            $data['user_has_liked'] = 1;
+            $data['user_has_disliked'] = 0;
+        } elseif ($rating == -1) {
+            $data['user_has_liked'] = 0;
+            $data['user_has_disliked'] = 1;
+        }
+
+        $result = $this->M_StudySociety->changePostRating($data);
+
+        if ($result) {
+            $response = array(
+                "success" => 1,
+                "liked" => $result['like_count_add'],
+                "disliked" => $result['dislike_count_add']
+            );
+        } else {
+            $response = array(
+                "success" => 0
+            );
+        }
+
+        $this->load->library('output');
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 }
