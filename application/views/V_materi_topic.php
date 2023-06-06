@@ -215,7 +215,7 @@
                 <div class="our-room-show">
                     <div class="row">
                         <div class="carousel-list">
-                        <?php foreach($topicc as $p) {?>
+                        <?php foreach($topic as $p) {?>
                                 <a href="<?php echo site_url('C_StudySociety/seePost/?post_id=').$p->post_id;?>">
                             <div class="col-md-4">
                                 <div class="single-room">
