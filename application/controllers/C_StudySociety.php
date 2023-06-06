@@ -48,14 +48,16 @@ class C_StudySociety extends CI_Controller
     }
     public function materitopic($id)
     {  
+        $gradeData = $this->M_StudySociety->getAllGrade();
         $topicData = $this->M_StudySociety->getTopic($id);
-        $data = ["topic" => $topicData];
+        $data = ["grade" => $gradeData,"topic" => $topicData];
         $this->load->view('V_materi_topic', $data);
     }
     public function materigrade($id)
     {  
+        $gradeData = $this->M_StudySociety->getAllGrade();
         $topicData = $this->M_StudySociety->getgrade($id);
-        $data = ["topic" => $topicData];
+        $data = ["topic" => $topicData,"grade" => $gradeData];
         $this->load->view('V_materi_grade', $data);
     }
 
