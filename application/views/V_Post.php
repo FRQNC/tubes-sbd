@@ -40,16 +40,16 @@
     <div class="row">
         <div class="col">
             <h4 class="tags">Tag : <?php
-                                    $count = count($post_tags);
-                                    $index = 0;
-                                    foreach ($post_tags as $tag) {
-                                        $index++;
-                                        if ($index === $count) {
-                                            echo $tag->tag_name;
-                                        } else {
-                                            echo $tag->tag_name . ', ';
-                                        }
-                                    }
+                                    // $count = count($post_tags);
+                                    // $index = 0;
+                                    // foreach ($post_tags as $tag) {
+                                    //     $index++;
+                                    //     if ($index === $count) {
+                                    //         echo $tag->tag_name;
+                                    //     } else {
+                                    //         echo $tag->tag_name . ', ';
+                                    //     }
+                                    // }
                                     ?></h4>
         </div>
     </div>

@@ -36,6 +36,10 @@ class C_StudySociety extends CI_Controller
         
         $this->load->view('V_landing', $data);
     }
+    public function admin()
+    {   
+        $this->load->view('admin/index');
+    }
 
     public function register()
     {
@@ -67,7 +71,8 @@ class C_StudySociety extends CI_Controller
     {
         $gradeData = $this->M_StudySociety->getAllGrade();
         $topicData = $this->M_StudySociety->getAllTopic();
-        $data = ["grade" => $gradeData, "topic" => $topicData];
+        $postdata = $this->M_StudySociety->getAllpost();
+        $data = ["grade" => $gradeData, "topic" => $topicData, "all" => $postdata];
         $data['search_result'] = array();
         $data['keyword'] = '';
         $data['searchBy'] = '';
@@ -79,7 +84,10 @@ class C_StudySociety extends CI_Controller
         $keyword = $this->input->get('keyword');
         $searchBy = $this->input->get('search_by');
         $searchValue = $this->input->get('search_value');
-    
+        $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $postdata = $this->M_StudySociety->getAllpost();
+        $data = ["grade" => $gradeData, "topic" => $topicData, "all" => $postdata];
         $this->load->model('M_StudySociety');
         $data['search_result'] = $this->M_StudySociety->search($keyword, $searchBy, $searchValue);
         $data['keyword'] = $keyword;
@@ -421,6 +429,9 @@ class C_StudySociety extends CI_Controller
         $post_id = $_GET['post_id'];
         $post_data = $this->M_StudySociety->getPostData($post_id);
         if (!empty($post_data)) {
+            $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $data = ["grade" => $gradeData, "topic" => $topicData];
             $data['post_data'] = $post_data[0];
             $data['post_blocks'] = json_decode($post_data[0]->post_content, true)['blocks'];
             $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
@@ -514,8 +525,8 @@ class C_StudySociety extends CI_Controller
 }
 
 /* 
-- Navbar sesudah/sebelum login
-- Tambah search bar di nav barW
+- Navbar sesudah/sebelum 
+- Tambah search bar di nav barW 
 - Halaman list materi dari search
 - Styling view post
 - Comment post

@@ -93,6 +93,7 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="<?php echo site_url('C_StudySociety/V_addpost');?>">ADD POST</a></li>
+              <li><a class="dropdown-item" href="<?php echo site_url('C_StudySociety/V_userProfile/?username='). $this->session->username;?>">USER INFO</a></li>
               <li><a class="dropdown-item" href="<?php echo site_url('C_StudySociety/V_edituserinfo');?>">EDIT INFO</a></li>
               <li><a class="dropdown-item" href="<?php echo site_url('C_StudySociety/logout');?>">LOGOUT</a></li>
             </ul>

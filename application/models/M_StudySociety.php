@@ -123,6 +123,11 @@ class M_StudySociety extends CI_Model
         $query = $this->db->query("SELECT * FROM topic");
         return $query->result();
     }
+    public function getAllpost()
+    {
+        $query = $this->db->query("SELECT * FROM post order by post_like_count DESC LIMIT 9");
+        return $query->result();
+    }
 
     public function addPostData($data)
     {
