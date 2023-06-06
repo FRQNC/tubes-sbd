@@ -30,20 +30,53 @@ class C_StudySociety extends CI_Controller
         $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
         $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
+        $gradeData = $this->M_StudySociety->getAllGrade();
+            $topicData = $this->M_StudySociety->getAllTopic();
+            $data = ["grade" => $gradeData, "topic" => $topicData];
+        
         $this->load->view('V_landing', $data);
+    }
+    public function admin()
+    {   
+        $this->load->view('admin/index');
+    }
+    public function topic()
+    {   $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $data = ["grade" => $gradeData, "topic" => $topicData];
+        $this->load->view('V_topic', $data);
+    }
+    public function materitopic($id)
+    {  
+        $topicData = $this->M_StudySociety->getTopic($id);
+        $data = ["topic" => $topicData];
+        $this->load->view('V_materi_topic', $data);
+    }
+    public function materigrade($id)
+    {  
+        $topicData = $this->M_StudySociety->getgrade($id);
+        $data = ["topic" => $topicData];
+        $this->load->view('V_materi_grade', $data);
     }
 
     public function register()
     {
         $data['keyword'] = $this->input->get('keyword');
+        $data['searchby'] = $this->input->get('searchby');
         $this->load->model('M_StudySociety');
-        $data['search_result'] = $this->M_StudySociety->search($data['keyword']);
+        $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
+        $gradeData = $this->M_StudySociety->getAllGrade();
+            $topicData = $this->M_StudySociety->getAllTopic();
+            $data = ["grade" => $gradeData, "topic" => $topicData];
         $this->load->view('V_register', $data);
     }
 
     public function login()
     {
-        $this->load->view('V_login');
+        $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $data = ["grade" => $gradeData, "topic" => $topicData];
+        $this->load->view('V_login', $data);
     }
     // public function home(){
     //     $data['keyword'] = $this->input->get('keyword');
@@ -54,6 +87,10 @@ class C_StudySociety extends CI_Controller
 
     public function home()
     {
+        $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $postdata = $this->M_StudySociety->getAllpost();
+        $data = ["grade" => $gradeData, "topic" => $topicData, "all" => $postdata];
         $data['search_result'] = array();
         $data['keyword'] = '';
         $data['searchBy'] = '';
@@ -65,7 +102,10 @@ class C_StudySociety extends CI_Controller
         $keyword = $this->input->get('keyword');
         $searchBy = $this->input->get('search_by');
         $searchValue = $this->input->get('search_value');
-    
+        $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $postdata = $this->M_StudySociety->getAllpost();
+        $data = ["grade" => $gradeData, "topic" => $topicData, "all" => $postdata];
         $this->load->model('M_StudySociety');
         $data['search_result'] = $this->M_StudySociety->search($keyword, $searchBy, $searchValue);
         $data['keyword'] = $keyword;
@@ -182,7 +222,8 @@ class C_StudySociety extends CI_Controller
                 $user_bio = $dt[0]->user_bio;
                 $user_photo = $dt[0]->user_photo;
             }
-
+            $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
             $data = [
                 "user_fullname" => $user_fullname,
                 "user_birthday" => $user_birthday,
@@ -190,8 +231,11 @@ class C_StudySociety extends CI_Controller
                 "user_type" => $user_type,
                 "user_institution" => $user_institution,
                 "user_bio" => $user_bio,
-                "user_photo" => $user_photo
+                "user_photo" => $user_photo,
+                "grade" => $gradeData,
+                "topic" => $topicData
             ];
+            
             $this->load->view("V_EditUserInfo", $data);
         }
     }
@@ -403,12 +447,19 @@ class C_StudySociety extends CI_Controller
         $post_id = $_GET['post_id'];
         $post_data = $this->M_StudySociety->getPostData($post_id);
         if (!empty($post_data)) {
+            $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $data = ["grade" => $gradeData, "topic" => $topicData];
             $data['post_data'] = $post_data[0];
             $data['post_blocks'] = json_decode($post_data[0]->post_content, true)['blocks'];
             $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
             $data['viewer_like_data'] = $this->M_StudySociety->getPostLikeData($post_id,$this->session->user_id);
             $data['post_comments'] = $this->M_StudySociety->getPostComments($post_id);
             $tags = $this->M_StudySociety->getPostTags($post_id);
+            $data['keyword'] = $this->input->get('keyword');
+            $data['searchby'] = $this->input->get('searchby');
+            $this->load->model('M_StudySociety');
+            $data['search_result'] = $this->M_StudySociety->search($data['keyword'],$data['searchby']);
             if (!empty($tags)) {
                 $data['post_tags'] = $tags;
             }
@@ -482,15 +533,18 @@ class C_StudySociety extends CI_Controller
             redirect('C_StudySociety/seePost/?post_id='.$post_id);
         }
     }
+
+    public function logout()
+	{
+	    $this->session->sess_destroy();
+		redirect('C_StudySociety/');
+	}
+
 }
 
 /* 
-- Navbar sesudah/sebelum login
 - Halaman list materi dari search
 - Styling view post
-- Halaman List topic
-- Dropdown navbar grade
-- Log out
 - Upload photo issue
 - Sort uploaded user file
 */

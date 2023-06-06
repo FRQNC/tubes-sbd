@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <h4>Studen society</h4>
+                <h4>Study Society</h4>
             </div>
                 <div class="col-sm-3">
                 <h4>Quick Links</h4>
