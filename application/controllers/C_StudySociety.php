@@ -148,10 +148,10 @@ class C_StudySociety extends CI_Controller
                     mkdir($folderPath . 'post_images/', 0777, true);
                     mkdir($folderPath . 'resource/pdf/', 0777, true);
                     mkdir($folderPath . 'resource/apkg/', 0777, true);
-                    mkdir($folderPath . 'resource/ppt/', 0777, true);
+                    mkdir($folderPath . 'resource/pptx/', 0777, true);
                     mkdir($folderPath . 'resource/docx/', 0777, true);
-                    mkdir($folderPath . 'resource/xls/', 0777, true);
-                    mkdir($folderPath . 'resource/txt/', 0777, true);
+                    mkdir($folderPath . 'resource/xlsx/', 0777, true);
+                    mkdir($folderPath . 'resource/other/', 0777, true);
                 } else {
                     echo 'Unable to create the folder. ' . $folderPath;
                 }
@@ -225,7 +225,7 @@ class C_StudySociety extends CI_Controller
                 $user_photo = $dt[0]->user_photo;
             }
             $gradeData = $this->M_StudySociety->getAllGrade();
-        $topicData = $this->M_StudySociety->getAllTopic();
+        $topicData = $this->M_StudySociety->getAllTopic(); 
             $data = [
                 "user_fullname" => $user_fullname,
                 "user_birthday" => $user_birthday,
@@ -419,7 +419,38 @@ class C_StudySociety extends CI_Controller
         $topic_id = $this->input->post('topic');
         $grade_id = $this->input->post('grade');
         $tags = explode(",", $this->input->post('tags'));
+
         $resource_name = $_FILES['resource']['name'];
+        $resource_type = pathinfo($resource_name, PATHINFO_EXTENSION);
+
+        $extensions = array('pdf', 'docx', 'xlsx', 'pptx', 'apkg');
+        $not_other = 0;
+        foreach($extensions as $x){
+            if($resource_type == $x) $not_other = 1;
+        }
+        if($not_other == 0) $resource_type = 'other';
+        $resource_type_id = -1;
+        switch($resource_type){
+            case 'other':
+                $resource_type_id = 0;
+                break;
+            case 'pdf':
+                $resource_type_id = 1;
+                break;
+            case 'docx':
+                $resource_type_id = 2;
+                break;
+            case 'xlsx':
+                $resource_type_id = 3;
+                break;
+            case 'pptx':
+                $resource_type_id = 4;
+                break;
+            case 'apkg':
+                $resource_type_id = 5;
+                break;
+        }
+        
         $resource_tmp_name = $_FILES['resource']['tmp_name'];
         $data = [
             "user_id" => $user_id,
@@ -429,19 +460,21 @@ class C_StudySociety extends CI_Controller
             "grade_id" => $grade_id,
             "tags" => $tags,
             "resource_name" => $resource_name,
-            "resource_tmp_name" => $resource_tmp_name
+            "resource_tmp_name" => $resource_tmp_name,
+            "resource_type_id" => $resource_type_id,
+            "resource_type_name" => $resource_type
         ];
         $success = $this->M_StudySociety->addPostData($data);
         if ($success['post_inserted'] > 0) {
-            if ($success['resource_inserted']) {
+            if ($success['resource_inserted'] > 0) {
 
-                $relativePath = '../../assets/userFiles/' . $this->session->username . '/resource/other/';
+                $relativePath = '../../assets/userFiles/' . $this->session->username . '/resource/'.$resource_type.'/';
                 $uploadPath = realpath(__DIR__ . '/' . $relativePath) . '/';
                 $filePath = $uploadPath . $resource_name;
 
                 move_uploaded_file($resource_tmp_name, $filePath);
-                redirect(site_url('C_StudySociety/home'));
             }
+            redirect(site_url('C_StudySociety/home'));
         }
     }
 
@@ -458,6 +491,32 @@ class C_StudySociety extends CI_Controller
             $data['user_data'] = $this->M_StudySociety->getUserInfoById($post_data[0]->user_id)[0];
             $data['viewer_like_data'] = $this->M_StudySociety->getPostLikeData($post_id,$this->session->user_id);
             $data['post_comments'] = $this->M_StudySociety->getPostComments($post_id);
+            $data['resource_data'] = $this->M_StudySociety->getResourceData($post_id);
+            if(!empty($data['resource_data'])){
+                $data['resource_data'] = $data['resource_data'][0];
+                $resource_type = $data['resource_data']->resource_type_id;
+                switch($resource_type){
+                    case 0;
+                        $resource_type = 'other';
+                    break;
+                    case 1;
+                        $resource_type = 'pdf';
+                    break;
+                    case 2;
+                        $resource_type = 'docx';
+                    break;
+                    case 3;
+                        $resource_type = 'xlsx';
+                    break;
+                    case 4;
+                        $resource_type = 'pptx';
+                    break;
+                    case 5;
+                        $resource_type = 'apkg';
+                    break;
+                }
+                $data['resource_type'] = $resource_type;
+            }
             $tags = $this->M_StudySociety->getPostTags($post_id);
             $data['keyword'] = $this->input->get('keyword');
             $data['searchby'] = $this->input->get('searchby');

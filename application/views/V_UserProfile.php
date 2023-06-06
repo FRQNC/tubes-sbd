@@ -12,8 +12,8 @@ padding:15px;
 </head>
 <body style="background-size:cover;background-attachment: fixed;">
 <div class="wrap">
-<h2 class="class" align="center">INFORMASI DATA DIRI</h2><hr/ align="center" width="100%" style="border-top: 3px double #8c8b8b;">
-<table style="padding: 5%;">
+<h2 class="class" align="center">INFORMASI DATA DIRI</h2><hr align="center" width="100%" style="border-top: 3px double #8c8b8b;">
+<table style="padding: 5%;" class="table">
 <tr><td rowspan="10" width="100px">
 <img src="<?=base_url('assets/userFiles/'.$username.'/'.$user_photo)?>" style="display: block;border-radius: 5%;border-color:white;margin-right:30px; width:300px;" border="2px" ></td></tr>
 <tr style="padding: 2px;"><td><b>Nama </b></td><td>:</td> <td> <?= $user_fullname?></td></tr>
@@ -27,20 +27,32 @@ padding:15px;
     <br>
 <center>
 <h2>Daftar Post</h2>
-<ul>
-    <?php
+<?php
         if(gettype($user_posts) != 'array'){
             echo '<p>Kosong</p>';
         }
-        else{
-            foreach($user_posts as $post){
+        else{ ?>
+
+            <table class="table">
+                <thead>
+                    <th>Judul post</th>
+                    <th>Topik</th>
+                    <th>Tingkat</th>
+                </thead>
+                <tbody>
+            <?php foreach($user_posts as $post){
     ?>
-    <li><?= $post->post_title?></li>
+            <tr>
+                <td><a href="<?= site_url('C_StudySociety/seePost?post_id='.$post->post_id)?>"><?= $post->post_title?></a></td>
+                <td><?= $post->topic_name?></td>
+                <td><?= $post->grade_name?></td>
+            </tr>
     <?php
             }
         }
     ?>
-</ul>
+    </tbody>
+    </table>
 <br>
 </center>
 </div>

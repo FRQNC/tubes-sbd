@@ -56,7 +56,10 @@ class M_StudySociety extends CI_Model
     }
     public function getUserPosts($user_id)
     {
-        $query = $this->db->query("SELECT post_id, post_title FROM post WHERE user_id = '$user_id'");
+        $query = $this->db->query("SELECT post.post_id, post.post_title, topic.topic_name, grade.grade_name FROM post 
+        INNER JOIN topic ON topic.topic_id = post.topic_id
+        INNER JOIN grade ON grade.grade_id = post.grade_id
+        WHERE user_id = '$user_id'");
         return $query->result();
     }
     public function getPostAll()
@@ -147,12 +150,16 @@ class M_StudySociety extends CI_Model
         $topic_id = $data['topic_id'];
         $grade_id = $data['grade_id'];
         $resource_name = $data['resource_name'];
+        $resource_type_id = $data['resource_type_id'];
         $query = "INSERT INTO post VALUES (?, ?, ?, ?, 0, 0, ?, ?)";
         $this->db->query($query, array('', $user_id, $post_title, $post_content, $topic_id, $grade_id));
         $result["post_inserted"] = $this->db->affected_rows();
         $insert_id = $this->db->insert_id();
-        $query = $this->db->query("INSERT INTO resource VALUES('','$resource_name','0','$user_id','$insert_id')");
-        $result["resource_inserted"] = $this->db->affected_rows();
+        $result["resource_inserted"] = 0;
+        if(!empty($resource_name)){
+            $query = $this->db->query("INSERT INTO resource VALUES('','$resource_name','$resource_type_id','$user_id','$insert_id')");
+            $result["resource_inserted"] = $this->db->affected_rows();
+        }
         foreach ($data['tags'] as $tag) {
             $tag_found = $this->findTag($tag);
             if (!empty($tag_found)) {
@@ -206,6 +213,11 @@ class M_StudySociety extends CI_Model
         INNER JOIN topic ON post.topic_id = topic.topic_id
         INNER JOIN grade ON post.grade_id = grade.grade_id
         WHERE post.post_title LIKE '%" . $kunci . "%'");
+        return $query->result();
+    }
+
+    public function getResourceData($post_id){
+        $query = $this->db->query("SELECT * FROM resource WHERE post_id = '$post_id'");
         return $query->result();
     }
 

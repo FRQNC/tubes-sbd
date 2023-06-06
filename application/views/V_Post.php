@@ -21,7 +21,7 @@
             <tr>
                 <td><b>Ditulis oleh </b></td>
                 <td>:</td>
-                <td> <?= $user_data->user_fullname ?>(@;<?= $user_data->username ?>)</td>
+                <td> <?= $user_data->user_fullname ?>( @<a href="<?= site_url('C_StudySociety/V_userProfile/?username='.$user_data->username)?>" style="text-decoration:none"><?= $user_data->username ?></a> )</td>
             </tr>
             <tr>
                 <td><b>Topik </b></td>
@@ -58,7 +58,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <button onclick="postLiked()" id="like-button" style="background-color: transparent;"
+            <button onclick="postLiked()" id="like-button"
             <?php 
             if ($this->session->is_logged_in == 0) echo 'disabled';
             if(!empty($viewer_like_data)){
@@ -66,16 +66,22 @@
                     echo 'style="background-color:blue"';
                 }
             }
+            else{
+                echo 'style="background-color: transparent;"';
+            }
             ?>
             ><i class="fa fa-thumbs-up fa-2x"></i></button>
             <p style="display:inline" id="like-count"></p>
-            <button onclick="postDisliked()" id="dislike-button" style="background-color: transparent;"
+            <button onclick="postDisliked()" id="dislike-button"
             <?php 
             if ($this->session->is_logged_in == 0) echo 'disabled';
             if(!empty($viewer_like_data)){
                 if($viewer_like_data[0]->user_has_disliked){
                     echo 'style="background-color:red"';
                 }
+            }
+            else{
+                echo 'style="background-color: transparent;"';
             }
             ?>
             ><i class="fa fa-thumbs-down fa-2x"></i></button>
@@ -85,6 +91,12 @@
     <div class="row my-3">
         <div id="editorjs"></div>
     </div> <br>
+    <?php if(!empty($resource_data->resource_file)){?>
+    <div class="row">
+        <h3>Download file materi</h3> <br>
+        <button class="btn"><a href="<?= base_url('assets/userFiles/'.$user_data->username.'/resource/'.$resource_type.'/'.$resource_data->resource_file)?>">Download</a></button>
+    </div>
+    <?php } ?>
     <div class="row">
         <hr style="border:4px solid">
         <h2>Komentar</h2>
@@ -265,7 +277,6 @@
                 },
 
             },
-            placeholder: "Tulis disini",
             onReady: function() {
                 saveButton.click();
             },
