@@ -486,10 +486,8 @@ class C_StudySociety extends CI_Controller
 
 /* 
 - Navbar sesudah/sebelum login
-- Tambah search bar di nav barW
 - Halaman list materi dari search
 - Styling view post
-- Comment post
 - Halaman List topic
 - Dropdown navbar grade
 - Log out
