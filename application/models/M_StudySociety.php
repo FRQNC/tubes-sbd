@@ -122,7 +122,7 @@ class M_StudySociety extends CI_Model
     }
     public function getGrade($id)
     {
-        $query = $this->db->query("SELECT * FROM post where grade_id=$id");
+        $query = $this->db->query("SELECT * FROM post INNER JOIN topic ON post.topic_id = topic.topic_id where grade_id=$id");
         return $query->result();
     }
 
@@ -133,7 +133,10 @@ class M_StudySociety extends CI_Model
     }
     public function getTopic($id)
     {
-        $query = $this->db->query("SELECT * FROM post where topic_id = $id");
+        $query = $this->db->query("SELECT * FROM post 
+
+        INNER JOIN grade ON post.grade_id = grade.grade_id
+        where topic_id = $id");
         return $query->result();
     }
     public function getAllpost()
@@ -183,7 +186,7 @@ class M_StudySociety extends CI_Model
 
     public function addTag($tag_name)
     {
-        $query = $this->db->query("INSERT INTO tag VALUES('','$tag_name',1)");
+        $query = $this->db->query("INSERT INTO tag VALUES('','$tag_name','1')");
         return $this->db->insert_id();
     }
 
@@ -213,6 +216,13 @@ class M_StudySociety extends CI_Model
         INNER JOIN topic ON post.topic_id = topic.topic_id
         INNER JOIN grade ON post.grade_id = grade.grade_id
         WHERE post.post_title LIKE '%" . $kunci . "%'");
+        return $query->result();
+    }
+    public function getPostdata1()
+    {
+        $query = $this->db->query("SELECT * FROM post 
+        INNER JOIN topic ON post.topic_id = topic.topic_id
+        INNER JOIN grade ON post.grade_id = grade.grade_id");
         return $query->result();
     }
 

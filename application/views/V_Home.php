@@ -266,9 +266,10 @@
                                 <div class="single-room">
                                     <div class="room-desc">
                                         <div class="room-name">
-                                            <h3> <?=$p->post_title?></h3>
-                                        </div>
-                                        <div class="room-rent">
+                                            <h3 class="col-sm-10"> <?=$p->post_title?>
+                                        </h3>
+                                            <i class="fa fa-thumbs-up fa-1x"><?=$p->post_like_count?></i>
+                                        <i class="fa fa-thumbs-down fa-1x"><?=$p->post_dislike_count?></i>
                                         </div>
                                     </div>
                                 </div>

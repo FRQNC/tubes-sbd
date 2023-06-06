@@ -50,7 +50,8 @@ class C_StudySociety extends CI_Controller
     {  
         $gradeData = $this->M_StudySociety->getAllGrade();
         $topicData = $this->M_StudySociety->getTopic($id);
-        $data = ["grade" => $gradeData,"topic" => $topicData];
+        $dataall = $this->M_StudySociety->getPostdata1();
+        $data = ["grade" => $gradeData,"topic" => $topicData, "all" => $dataall];
         $this->load->view('V_materi_topic', $data);
     }
     public function materigrade($id)
@@ -599,7 +600,8 @@ class C_StudySociety extends CI_Controller
     public function logout()
 	{
 	    $this->session->sess_destroy();
-		redirect('C_StudySociety/');
+        $this->session->set_flashdata('msg', '<p style="color:green">Berhasil logout</p>');
+		redirect('C_StudySociety/login');
 	}
 
     public function navbarcari()
