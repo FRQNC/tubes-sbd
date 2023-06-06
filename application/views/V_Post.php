@@ -94,7 +94,7 @@
     <?php if(!empty($resource_data->resource_file)){?>
     <div class="row">
         <h3>Download file materi</h3> <br>
-        <button class="btn"><a href="<?= base_url('assets/userFiles/'.$user_data->username.'/resource/'.$resource_type.'/'.$resource_data->resource_file)?>">Download</a></button>
+        <button class="btn"><a href="<?= base_url('assets/userFiles/'.$user_data->username.'/resource/'.$resource_type.'/'.$resource_data->resource_file)?>" target="_blank">Download</a></button>
     </div>
     <?php } ?>
     <div class="row">

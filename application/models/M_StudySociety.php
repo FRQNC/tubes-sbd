@@ -93,8 +93,8 @@ class M_StudySociety extends CI_Model
             $query = $this->db->query(
                 "SELECT *
             FROM post_tags
-            LEFT JOIN tag ON tag.tag_id = post_tags.tag_id
-            LEFT JOIN post ON post.post_id = post_tags.post_id
+            INNER JOIN tag ON tag.tag_id = post_tags.tag_id
+            INNER JOIN post ON post.post_id = post_tags.post_id
             WHERE tag_name LIKE '%" . $keyword . "%'"
             );
             $result = $query->result();
@@ -103,14 +103,14 @@ class M_StudySociety extends CI_Model
             $query = $this->db->query(
                 "SELECT *
         FROM post
-        LEFT JOIN topic ON topic.topic_id = post.topic_id
+        INNER JOIN topic ON topic.topic_id = post.topic_id
         WHERE topic_name LIKE '%" . $keyword . "%'"
             );
         } elseif ($searchBy === 'grade') {
             $query = $this->db->query(
                 "SELECT *
         FROM post
-        LEFT JOIN grade ON grade.grade_id = post.grade_id
+        INNER JOIN grade ON grade.grade_id = post.grade_id
         WHERE grade_name LIKE '%" . $keyword . "%'"
             );
         }
