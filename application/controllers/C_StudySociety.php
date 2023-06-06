@@ -542,6 +542,9 @@ class C_StudySociety extends CI_Controller
 
     public function navbarcari()
 	{
+        $gradeData = $this->M_StudySociety->getAllGrade();
+            $topicData = $this->M_StudySociety->getAllTopic();
+            $data = ["grade" => $gradeData, "topic" => $topicData];
 	    $cari = $this->input->post('cari');
         $data['cari'] = $this->M_StudySociety->getPost($cari);
         $this->load->view('V_Materi_cari', $data);
