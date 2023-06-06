@@ -290,6 +290,7 @@ class C_StudySociety extends CI_Controller
         if (!empty($user_data)) {
             $user_id = $user_data[0]->user_id;
             $user_posts = $this->M_StudySociety->getUserPosts($user_id);
+            $gradeData = $this->M_StudySociety->getAllGrade();
             $data = [
                 "username" => $username,
                 "user_fullname" => $user_data[0]->user_fullname,
@@ -298,7 +299,7 @@ class C_StudySociety extends CI_Controller
                 "user_type" => $user_data[0]->user_type,
                 "user_institution" => $user_data[0]->user_institution,
                 "user_bio" => $user_data[0]->user_bio,
-                "user_photo" => $user_data[0]->user_photo
+                "user_photo" => $user_data[0]->user_photo,"grade" => $gradeData
             ];
             if (!empty($user_posts)) {
                 $data['user_posts'] = $user_posts;
