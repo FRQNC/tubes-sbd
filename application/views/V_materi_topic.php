@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-                <table >
+                <table>
                   <tr>
                     <td style="width: 80%;" ><h3>Judul</h3></td>
                     <td style="width: 20%;">Grade</td>

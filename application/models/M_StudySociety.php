@@ -97,6 +97,8 @@ class M_StudySociety extends CI_Model
             LEFT JOIN post ON post.post_id = post_tags.post_id
             WHERE tag_name LIKE '%" . $keyword . "%'"
             );
+            $result = $query->result();
+            
         } elseif ($searchBy === 'topic') {
             $query = $this->db->query(
                 "SELECT *
@@ -115,6 +117,14 @@ class M_StudySociety extends CI_Model
         return $query->result();
     }
 
+    public function searchByFile($keyword,$file_type){
+        $query = $this->db->query("SELECT post.post_id, post.post_title, resource.resource_type_id FROM post
+        INNER JOIN resource ON resource.post_id = post.post_id
+        WHERE resource.resource_type_id = '$file_type' AND post.post_title LIKE '%$keyword%'
+        ");
+        return $query->result();
+    }
+
     public function getAllGrade()
     {
         $query = $this->db->query("SELECT * FROM grade");
@@ -128,7 +138,7 @@ class M_StudySociety extends CI_Model
 
     public function getAllTopic()
     {
-        $query = $this->db->query("SELECT * FROM topic");
+        $query = $this->db->query("SELECT * FROM topic ORDER BY topic_name");
         return $query->result();
     }
     public function getTopic($id)
@@ -141,7 +151,7 @@ class M_StudySociety extends CI_Model
     }
     public function getAllpost()
     {
-        $query = $this->db->query("SELECT * FROM post order by post_like_count DESC LIMIT 6");
+        $query = $this->db->query("SELECT * FROM post order by post_like_count - post_dislike_count DESC LIMIT 6");
         return $query->result();
     }
 

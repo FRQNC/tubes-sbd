@@ -42,7 +42,7 @@ class C_StudySociety extends CI_Controller
     }
     public function topic()
     {   $gradeData = $this->M_StudySociety->getAllGrade();
-        $topicData = $this->M_StudySociety->getAllTopic();
+        $topicData = $this->M_StudySociety->getAllTopic(); 
         $data = ["grade" => $gradeData, "topic" => $topicData];
         $this->load->view('V_topic', $data);
     }
@@ -114,6 +114,19 @@ class C_StudySociety extends CI_Controller
         $data['keyword'] = $keyword;
         $data['searchBy'] = $searchBy;
         $data['searchValue'] = $searchValue;
+        $this->load->view('V_Home',$data);
+    }
+    
+    public function searchByFile(){
+        $keyword = $this->input->get('search_by_file_keyword');
+        $file_type = $this->input->get('file_type');
+        $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $postdata = $this->M_StudySociety->getAllpost();
+        $data = ["grade" => $gradeData, "topic" => $topicData, "all" => $postdata];
+        $data['keyword'] =$keyword;
+        $data['searchBy'] = '';
+        $data['search_result'] = $this->M_StudySociety->searchByFile($keyword,$file_type);
         $this->load->view('V_Home',$data);
     }
 
@@ -617,8 +630,17 @@ class C_StudySociety extends CI_Controller
 }
 
 /* 
-- Halaman list materi dari search
-- Styling view post
 - Upload photo issue
 - Sort uploaded user file
+
+Filtered search
+keyword + filter
+
+by grade/topic
+1. Select grade/topic
+2. Input keyword
+3. Enter
+
+SELECT * FROM post WHERE grade/topic_id = $filter AND post_title = LIKE keyword
+
 */

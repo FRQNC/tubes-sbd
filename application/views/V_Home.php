@@ -218,7 +218,24 @@
     </div>
 </form>
 <br />
-
+<div class="row">
+                        <h4>Search berdasarkan tipe file materi</h4>
+                    </div>
+                    <div class="row">
+                    <form action="<?=site_url('C_StudySociety/searchByFile')?>" method="get" style="flex-direction: row; align-items:center">
+    <div>
+        <input type="search" name="search_by_file_keyword" style="width: 360px;" placeholder="Keyword.." />
+        <select name="file_type">
+            <option value="1">PDF</option>
+            <option value="2" >Ms. Word Document (.docx)</option>
+            <option value="3" >Ms. Excel Document (.xlsx)</option>
+            <option value="4" >Ms. PowerPoint Document (.pptx)</option>
+            <option value="5" >Anki Flashcard (.apkg)</option>
+        </select>
+        <input type="submit" class="button button-primary" value="Cari">
+    </div>
+</form>
+                    </div>
 
 <?php if ($search_result) : ?>
     <div class="search-result">
