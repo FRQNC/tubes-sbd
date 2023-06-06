@@ -40,6 +40,24 @@ class C_StudySociety extends CI_Controller
     {   
         $this->load->view('admin/index');
     }
+    public function topic()
+    {   $gradeData = $this->M_StudySociety->getAllGrade();
+        $topicData = $this->M_StudySociety->getAllTopic();
+        $data = ["grade" => $gradeData, "topic" => $topicData];
+        $this->load->view('V_topic', $data);
+    }
+    public function materitopic($id)
+    {  
+        $topicData = $this->M_StudySociety->getTopic($id);
+        $data = ["topic" => $topicData];
+        $this->load->view('V_materi_topic', $data);
+    }
+    public function materigrade($id)
+    {  
+        $topicData = $this->M_StudySociety->getgrade($id);
+        $data = ["topic" => $topicData];
+        $this->load->view('V_materi_grade', $data);
+    }
 
     public function register()
     {
@@ -525,14 +543,11 @@ class C_StudySociety extends CI_Controller
 }
 
 /* 
-- Navbar sesudah/sebelum 
 - Tambah search bar di nav barW 
+- Dropdown navbar grade
 - Halaman list materi dari search
 - Styling view post
-- Comment post
 - Halaman List topic
-- Dropdown navbar grade
-- Log out
 - Upload photo issue
 - Sort uploaded user file
 */

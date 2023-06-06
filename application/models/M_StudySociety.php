@@ -117,15 +117,25 @@ class M_StudySociety extends CI_Model
         $query = $this->db->query("SELECT * FROM grade");
         return $query->result();
     }
+    public function getGrade($id)
+    {
+        $query = $this->db->query("SELECT * FROM post where grade_id=$id");
+        return $query->result();
+    }
 
     public function getAllTopic()
     {
         $query = $this->db->query("SELECT * FROM topic");
         return $query->result();
     }
+    public function getTopic($id)
+    {
+        $query = $this->db->query("SELECT * FROM post where topic_id = $id");
+        return $query->result();
+    }
     public function getAllpost()
     {
-        $query = $this->db->query("SELECT * FROM post order by post_like_count DESC LIMIT 9");
+        $query = $this->db->query("SELECT * FROM post order by post_like_count DESC LIMIT 6");
         return $query->result();
     }
 

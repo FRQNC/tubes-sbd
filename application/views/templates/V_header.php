@@ -60,6 +60,7 @@
       <ul class="nav navbar-nav">   
           <li><a href="<?php echo site_url('/');?>">HOME</a></li>            
           <li><a href="<?php echo site_url('C_StudySociety/home');?>">MATERI</a></li>        
+          <li><a href="<?php echo site_url('C_StudySociety/topic');?>">TOPIC</a></li>        
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               GRADE
@@ -67,20 +68,7 @@
             <ul class="dropdown-menu">
               <?php
               foreach ($grade as $g) { ?>
-                  <li><a class="dropdown-item" href="<?php echo site_url('C_StudySociety/');?>"><?= $g->grade_name ?></a></li>
-                <?php
-                }
-                ?>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              TOPIC
-            </a>
-            <ul class="dropdown-menu">
-              <?php
-              foreach ($topic as $g) { ?>
-                  <li><a class="dropdown-item" href="<?php echo site_url('C_StudySociety/');?>"><?= $g->topic_name ?></a></li>
+                  <li><a class="dropdown-item" href="<?php echo site_url('C_StudySociety/materigrade/').$g->grade_id;?>"><?= $g->grade_name ?></a></li>
                 <?php
                 }
                 ?>

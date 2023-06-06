@@ -83,7 +83,7 @@
         <div id="editorjs"></div>
     </div> <br>
     <div class="row">
-        <hr style="border:5px solid">
+        <hr style="border:4px solid">
         <h2>Komentar</h2>
     </div>
     <?php if($this->session->is_logged_in){ ?>
