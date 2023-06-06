@@ -200,6 +200,14 @@ class M_StudySociety extends CI_Model
         WHERE post.post_id = '$post_id'");
         return $query->result();
     }
+    public function getPost($kunci)
+    {
+        $query = $this->db->query("SELECT * FROM post 
+        INNER JOIN topic ON post.topic_id = topic.topic_id
+        INNER JOIN grade ON post.grade_id = grade.grade_id
+        WHERE post.post_title LIKE '%" . $kunci . "%'");
+        return $query->result();
+    }
 
     public function getPostTags($post_id)
     {

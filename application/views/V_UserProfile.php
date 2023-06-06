@@ -25,16 +25,6 @@ padding:15px;
 <tr><td><b>Type</b></td><td>:</td> <td><?= $user_type?></td></tr></table>
     <br>
     <br>
-<?php
-    if($username == $this->session->username){
-        echo '<button type="button">';
-        echo '<a href="'.site_url('C_StudySociety/V_editUserInfo').'">Edit profil</a>';
-        echo '</button>';
-    }
-    ?>
-<br>
-<br>
-<button><a href="<?php echo site_url('C_StudySociety/V_addpost'); ?>">ADD POST</a></button>
 <center>
 <h2>Daftar Post</h2>
 <ul>

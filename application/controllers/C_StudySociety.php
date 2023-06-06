@@ -540,11 +540,16 @@ class C_StudySociety extends CI_Controller
 		redirect('C_StudySociety/');
 	}
 
+    public function navbarcari()
+	{
+	    $cari = $this->input->post('cari');
+        $data['cari'] = $this->M_StudySociety->getPost($cari);
+        $this->load->view('V_Materi_cari', $data);
+	}
+
 }
 
 /* 
-- Tambah search bar di nav barW 
-- Halaman list materi dari search
 - Styling view post
 - Upload photo issue
 - Sort uploaded user file
