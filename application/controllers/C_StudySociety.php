@@ -48,14 +48,16 @@ class C_StudySociety extends CI_Controller
     }
     public function materitopic($id)
     {  
+        $gradeData = $this->M_StudySociety->getAllGrade();
         $topicData = $this->M_StudySociety->getTopic($id);
-        $data = ["topic" => $topicData];
+        $data = ["grade" => $gradeData,"topic" => $topicData];
         $this->load->view('V_materi_topic', $data);
     }
     public function materigrade($id)
     {  
+        $gradeData = $this->M_StudySociety->getAllGrade();
         $topicData = $this->M_StudySociety->getgrade($id);
-        $data = ["topic" => $topicData];
+        $data = ["topic" => $topicData,"grade" => $gradeData];
         $this->load->view('V_materi_grade', $data);
     }
 
@@ -538,6 +540,16 @@ class C_StudySociety extends CI_Controller
 	{
 	    $this->session->sess_destroy();
 		redirect('C_StudySociety/');
+	}
+
+    public function navbarcari()
+	{
+        $gradeData = $this->M_StudySociety->getAllGrade();
+            $topicData = $this->M_StudySociety->getAllTopic();
+            $data = ["grade" => $gradeData, "topic" => $topicData];
+	    $cari = $this->input->post('cari');
+        $data['cari'] = $this->M_StudySociety->getPost($cari);
+        $this->load->view('V_Materi_cari', $data);
 	}
 
 }
