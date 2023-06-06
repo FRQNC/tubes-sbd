@@ -103,104 +103,8 @@
 	font-style: normal;
 }
 
-.our-room .section-title > h2::after {
-  left: 0;
-  width: 45px;
-}
-.section-title > p {
-  color: #4a4a4a;
-  line-height: 15px;
-  margin-top: 35px;
-}
-.our-room-show .single-room {
-  background: #fff none repeat scroll 0 0;
-  border-bottom: 2px solid #b8b8b8;
-  margin: 5px 0;
-  transition: all 0.3s ease 0s;
-}
-.single-room .room-desc {
-  padding: 34px 20px 25px;
-  text-align: left;
-}
-.room-desc .room-book {
-  display: inline-block;
-  float: right;
-  margin-top: -52px;
-}
-.single-room.mb-70 {
-  margin-bottom: 70px;
-}
-.room-desc .room-book a,.static2 .services-desc-inner .room-book > a:hover {
-    background: #4a4a4a none repeat scroll 0 0;
-    color: #fff;
-}
-.room-desc .room-book a, .static2 .services-desc-inner .room-book > a {
-  display: inline-block;
-  font-size: 14px;
-  padding: 10px 20px;
-  text-transform: uppercase;
-}
-.room-desc .room-book a {
-  font-family: "Montserrat",sans-serif;
-  font-weight: 400;
-}
-.room-desc .room-book a:hover,.static2 .services-desc-inner .room-book > a {
-    background: #212a3e none repeat scroll 0 0;
-    color: #fff
-}
-.room-section .single-room .room-desc {
-  background: #f1f1f1 none repeat scroll 0 0;
-}
-.room-desc .room-name h3 {
-  color: #4a4a4a;
-  font-family: "Poppins",sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 7px;
-  text-transform: capitalize;
-}
-.room-rent > h5 {
-    color: #6d6d6d;
-    text-transform: capitalize;
-}
-.room-rent > h5 span {
-  font-family: "Poppins",sans-serif;
-  font-size: 12px;
-}
-.our-room-show .single-room:hover,.single_news-post:hover {
-  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.35);
-}
-.carousel-list .col-md-4 {
-  width: 390px;
-}
-.carousel-list.owl-theme .owl-controls .owl-page span,.our-room-list.owl-theme .owl-controls .owl-page span,.our-news-list.owl-theme .owl-controls .owl-page span,.team_brand.style2.owl-theme .owl-controls .owl-page span {
-    background: #cbcbcb none repeat scroll 0 0;
-    height: 8px;
-    opacity: 1;
-    transition: all 0.3s ease 0s;
-    width: 26px;
-}
-.carousel-list.owl-theme .owl-controls .owl-page.active span,.our-room-list.owl-theme .owl-controls .owl-page.active span,.our-news-list.owl-theme .owl-controls .owl-page.active span,.team_brand.style2.owl-theme .owl-controls .owl-page.active span {
-    background: #212a3e none repeat scroll 0 0;
-    width: 40px;
-}
-.our-room .our-room-list.owl-theme .owl-controls,.our-room .our-news-list.owl-theme .owl-controls,.team_brand.style2.owl-theme .owl-controls {
-  margin-top: 30px;
-  text-align: center;
-}
-.our-room .carousel-list.owl-theme .owl-controls{
-  margin-top: 40px;
-}
-.owl-pagination.owl-theme .owl-controls {
-  margin-top: 40px;
-}
-.our-room-list .single-room.mb-80 {
-  margin-bottom: 75px;
-}
-
 </style>
 
-<center>
 <div class="container">
                 <div class="container">
                     <div class="row">
@@ -212,25 +116,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="our-room-show">
-                    <div class="row">
-                        <div class="carousel-list">
-                        <?php foreach($topic as $p) {?>
-                                <a href="<?php echo site_url('C_StudySociety/seePost/?post_id=').$p->post_id;?>">
-                            <div class="col-md-4">
-                                <div class="single-room">
-                                    <div class="room-desc">
-                                        <div class="room-name">
-                                            <h3> <?=$p->post_title?></h3>
-                                        </div>
-                                        <div class="room-rent">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </a>
-                           <?php } ?>
-                            
+                <table >
+                  <tr>
+                    <td style="width: 80%;" ><h3>Judul</h3></td>
+                    <td style="width: 30%;" >Topic</td>
+                    <td style="width: 30%;">like</td>
+                  </tr>
+                  <?php foreach($topic as $p) {?>
+                  <tr>
+                    <td style="width: 50%;" ><a href="<?php echo site_url('C_StudySociety/seePost/?post_id=').$p->post_id;?>"><h3> <?=$p->post_title?></h3></a></td>
+                    <td> <?=$p->topic_name?></td>
+                    <td> <i class="fa fa-thumbs-up fa-1x"><?=$p->post_like_count?></i>
+                  </td>
+                  <td>
+                    <i class="fa fa-thumbs-down fa-1x"><?=$p->post_dislike_count?></i>
+                  </td>
+                </tr>
+                <?php } ?>
+                </table>
                         </div>
                     </div>
                 </div>
