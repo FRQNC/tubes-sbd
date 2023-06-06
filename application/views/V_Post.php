@@ -21,7 +21,7 @@
             <tr>
                 <td><b>Ditulis oleh </b></td>
                 <td>:</td>
-                <td> <?= $user_data->user_fullname ?>(@<?= $user_data->username ?>)</td>
+                <td> <?= $user_data->user_fullname ?>( @<a href="<?= site_url('C_StudySociety/V_userProfile/?username='.$user_data->username)?>" style="text-decoration:none"><?= $user_data->username ?></a> )</td>
             </tr>
             <tr>
                 <td><b>Topik </b></td>
