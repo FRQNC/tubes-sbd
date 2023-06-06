@@ -544,10 +544,8 @@ class C_StudySociety extends CI_Controller
 
 /* 
 - Tambah search bar di nav barW 
-- Dropdown navbar grade
 - Halaman list materi dari search
 - Styling view post
-- Halaman List topic
 - Upload photo issue
 - Sort uploaded user file
 */
