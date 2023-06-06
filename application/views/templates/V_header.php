@@ -58,8 +58,8 @@
       
       <ul class="nav navbar-nav">   
         <li> <br><br><form class="form-inline my-2 my-lg-0 ml-auto" role="search" method = "post" action="<?php echo site_url('C_StudySociety/navbarcari/');?>"">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          <input class="form-control mr-sm-2" type="search" id="cari" name="cari" placeholder="Search" aria-label="Search" autofocus autocomplete="off">
+        <input class="form-control mr-sm-2" type="search" id="cari" name="cari" placeholder="Search" aria-label="Search" autofocus autocomplete="off">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form></li>
           <li><a href="<?php echo site_url('/');?>">HOME</a></li>            
           <li><a href="<?php echo site_url('C_StudySociety/home');?>">MATERI</a></li>        
