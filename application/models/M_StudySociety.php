@@ -176,7 +176,7 @@ class M_StudySociety extends CI_Model
 
     public function addTag($tag_name)
     {
-        $query = $this->db->query("INSERT INTO tag VALUES('','$tag_name',1)");
+        $query = $this->db->query("INSERT INTO tag VALUES('','$tag_name','1')");
         return $this->db->insert_id();
     }
 

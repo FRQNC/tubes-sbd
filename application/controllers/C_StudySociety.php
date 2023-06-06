@@ -540,7 +540,8 @@ class C_StudySociety extends CI_Controller
     public function logout()
 	{
 	    $this->session->sess_destroy();
-		redirect('C_StudySociety/');
+        $this->session->set_flashdata('msg', '<p style="color:green">Berhasil logout</p>');
+		redirect('C_StudySociety/login');
 	}
 
     public function navbarcari()

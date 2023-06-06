@@ -35,7 +35,7 @@ padding:15px;
         else{
             foreach($user_posts as $post){
     ?>
-    <li><?= $post->post_title?></li>
+    <li><a href="<?php echo site_url('C_StudySociety/seePost/?post_id=').$post->post_id;?>"><?= $post->post_title?></a></li>
     <?php
             }
         }
